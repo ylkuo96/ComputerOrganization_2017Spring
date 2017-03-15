@@ -6,6 +6,7 @@ module opUnit(
     input wire less, 
 );
 
+<<<<<<< HEAD
 parameter ALU_AND = 4'b0000;
 parameter ALU_OR  = 4'b0001;
 parameter ALU_ADD = 4'b0010;
@@ -14,4 +15,6 @@ parameter ALU_NOR = 4'b1100;
 parameter ALU_NAND = 4'b1101;
 parameter ALU_SLT = 4'b0111;
 
+=======
+>>>>>>> d9200da41e64ec92de3f7a1cbf588c9babaed801
 endmodule
