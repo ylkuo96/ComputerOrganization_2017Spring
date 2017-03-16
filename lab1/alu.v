@@ -26,16 +26,13 @@ output          zero;
 output          cout;
 output          overflow;
 
-/*
+
 reg    [32-1:0] result;
 reg             zero;
 reg             cout;
 reg             overflow;
-*/
-wire    [32-1:0] result;
-wire             zero;
-wire             cout;
-reg              overflow;
+
+
 
 
 
@@ -108,10 +105,23 @@ assign opcode = ( (ALU_control==ALU_AND) || (ALU_control==ALU_NOR)  )? ALU_AND[3
                 ( (ALU_control==ALU_ADD) || (ALU_control==ALU_SUB)  )? ALU_ADD[3:4] :
                                             (ALU_control==ALU_SLT )  ? ALU_SLT[3:4] : 
                                                                                      2'bxx;
+always@(*)begin
+  if( !rst_n )begin
+    result <= 1'b0 ;
+    zero <= 1'b0;
+    cout <= 1'b0;
+    overflow <= 1'b0
+  end 
+  else begin
+    result <= ( ALU_control == ALU_SLT ) ? lessOut : alu_result; 
+    zero   <= !result ;
+    cout   <= ( (ALU_control == ALU_ADD) || (ALU_control == ALU_SUB) ) ? co31 : 1'b0; 
+    //overflow 
+  end
 
-assign result = ( ALU_control == ALU_SLT ) ? lessOut : alu_result; 
-assign zero   = !result ;
-assign cout   = ( (ALU_control == ALU_ADD) || (ALU_control == ALU_SUB) ) ? co31 : 1'b0; 
+end
+
+
 //overflow detection 
 /*
 always@(*)begin
