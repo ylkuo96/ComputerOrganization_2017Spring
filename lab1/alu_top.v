@@ -27,13 +27,13 @@ output        cout;
 
 reg           result;
 
-
 parameter ALU_AND  = 2'b00;
 parameter ALU_OR   = 2'b01;
 parameter ALU_ADD  = 2'b10;
 parameter ALU_SLT  = 2'b11;
 // In operation SLT, ALU must calculate the sum and actually output the carryout and "result" (of addition)
 //  the less_outport in operation SLT equal to "less" port.
+assign less_out = less;
 
 
 always@( * )
