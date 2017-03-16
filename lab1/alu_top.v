@@ -9,6 +9,7 @@ module alu_top(
                B_invert,   //1 bit B_invert (input)
                cin,        //1 bit carry in (input)
                operation,  //operation      (input)
+               less_out,   //connect to less(output)
                result,     //1 bit result   (output)
                cout,       //1 bit carry out(output)
                );
@@ -30,7 +31,9 @@ reg           result;
 parameter ALU_AND  = 2'b00;
 parameter ALU_OR   = 2'b01;
 parameter ALU_ADD  = 2'b10;
-
+parameter ALU_SLT  = 2'b11;
+// In operation SLT, ALU must calculate the sum and actually output the carryout and "result" (of addition)
+//  the less_outport in operation SLT equal to "less" port.
 
 
 always@( * )
