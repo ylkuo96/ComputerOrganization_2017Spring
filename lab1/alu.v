@@ -65,7 +65,7 @@ assign complementAddOne = ( (ALU_control == ALU_SUB) || ( ALU_control == ALU_SLT
 
 //Need 32 instance 
 //            src1,         src2,      less, Ainvert,  Binvert, cin,           operation,     lessOut,     alu_result, cout
-alu_top AL00( src1[ 0], src2[ 0],alu_result[31], aInvert,  bInvert, complementAddOne, opcode, lessOut[ 0], alu_result[ 0], co01 );
+alu_top AL00( src1[ 0], src2[ 0],alu_result[31], aInvert,  bInvert, complementAddOne, opcode, lessOut[ 0], alu_result[ 0], co00 );
 
 //                src1,     src2,   less, Ainvert,  Binvert,  cin, operation, lessOut,      alu_result, cout
 alu_top AL01( src1[ 1], src2[ 1], ZERO_1, aInvert,  bInvert, co00, opcode, lessOut[ 1], alu_result[ 1], co01 );
