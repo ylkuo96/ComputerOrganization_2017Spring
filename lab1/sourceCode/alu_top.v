@@ -48,7 +48,7 @@ full_adder fa1( .a(s1), .b(s2), .cin(cin), .sum(fa_sum), .cout(fa_cout) );
 assign less_out = less;
 
 // In operation SLT, ALU must calculate the sum and actually output the carryout and "result" (of addition)
-assign cout =(  (operation == ALU_AND) || (operation== ALU_SLT ) ) ? fa_cout : 1'b0;
+assign cout =(  (operation == ALU_ADD) || (operation== ALU_SLT ) ) ? fa_cout : 1'b0;
 
 always@( * )begin
     case( operation )

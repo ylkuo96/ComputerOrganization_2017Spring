@@ -1,16 +1,16 @@
-Release 14.7 - xst P.20131013 (nt)
+Release 14.7 - xst P.20131013 (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.17 secs
+Total CPU time to Xst completion: 0.28 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.17 secs
+Total CPU time to Xst completion: 0.28 secs
  
 --> Reading design: alu.prj
 
@@ -68,7 +68,7 @@ Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
-Global Maximum Fanout              : 500
+Global Maximum Fanout              : 100000
 Add Generic Clock Buffer(BUFG)     : 24
 Register Duplication               : YES
 Slice Packing                      : YES
@@ -127,7 +127,7 @@ Analyzing hierarchy for module <alu> in library <work> with parameters.
 	ALU_OR = "0001"
 	ALU_SLT = "0111"
 	ALU_SUB = "0110"
-	ZERO_1 = "1"
+	ZERO_1 = "0"
 
 Analyzing hierarchy for module <alu_top> in library <work> with parameters.
 	ALU_ADD = "10"
@@ -151,7 +151,7 @@ Analyzing top module <alu>.
 	ALU_OR = 4'b0001
 	ALU_SLT = 4'b0111
 	ALU_SUB = 4'b0110
-	ZERO_1 = 1'b1
+	ZERO_1 = 1'b0
 Module <alu> is correct for synthesis.
  
 Analyzing module <alu_top> in library <work>.
@@ -273,13 +273,12 @@ Design Statistics
 # IOs                              : 104
 
 Cell Usage :
-# BELS                             : 257
+# BELS                             : 289
 #      GND                         : 1
-#      LUT2                        : 32
-#      LUT3                        : 4
-#      LUT4                        : 208
-#      MUXCY                       : 9
-#      MUXF5                       : 2
+#      LUT3                        : 6
+#      LUT4                        : 249
+#      MUXCY                       : 16
+#      MUXF5                       : 16
 #      VCC                         : 1
 # IO Buffers                       : 104
 #      IBUF                        : 69
@@ -291,8 +290,8 @@ Device utilization summary:
 
 Selected Device : 3s500efg320-4 
 
- Number of Slices:                      140  out of   4656     3%  
- Number of 4 input LUTs:                244  out of   9312     2%  
+ Number of Slices:                      143  out of   4656     3%  
+ Number of 4 input LUTs:                255  out of   9312     2%  
  Number of IOs:                         104
  Number of bonded IOBs:                 104  out of    232    44%  
 
@@ -327,7 +326,7 @@ Speed Grade: -4
    Minimum period: No path found
    Minimum input arrival time before clock: No path found
    Maximum output required time after clock: No path found
-   Maximum combinational path delay: 49.488ns
+   Maximum combinational path delay: 68.622ns
 
 Timing Detail:
 --------------
@@ -335,20 +334,19 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 16649 / 35
+  Total number of paths / destination ports: 14208 / 35
 -------------------------------------------------------------------------
-Delay:               49.488ns (Levels of Logic = 39)
-  Source:            ALU_control<3> (PAD)
-  Destination:       overflow (PAD)
+Delay:               68.622ns (Levels of Logic = 56)
+  Source:            ALU_control<2> (PAD)
+  Destination:       zero (PAD)
 
-  Data Path: ALU_control<3> to overflow
+  Data Path: ALU_control<2> to zero
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            42   1.218   1.440  ALU_control_3_IBUF (ALU_control_3_IBUF)
-     LUT4:I0->O           64   0.704   1.447  bInvert_or0000 (bInvert)
-     LUT2:I0->O            3   0.704   0.706  AL00/s21 (AL00/s2)
-     LUT4:I0->O            2   0.704   0.451  AL00/cout (co00)
+     IBUF:I->O            74   1.218   1.310  ALU_control_2_IBUF (ALU_control_2_IBUF)
+     LUT4:I2->O            2   0.704   0.482  AL00/cout_SW0 (N265)
+     LUT3:I2->O            2   0.704   0.451  AL00/cout (co00)
      LUT4:I3->O            2   0.704   0.451  AL01/cout (co01)
      LUT4:I3->O            2   0.704   0.451  AL02/cout (co02)
      LUT4:I3->O            2   0.704   0.451  AL03/cout (co03)
@@ -362,41 +360,59 @@ Delay:               49.488ns (Levels of Logic = 39)
      LUT4:I3->O            2   0.704   0.451  AL11/cout (co11)
      LUT4:I3->O            2   0.704   0.451  AL12/cout (co12)
      LUT4:I3->O            2   0.704   0.451  AL13/cout (co13)
-     LUT4:I3->O            2   0.704   0.451  AL14/cout (co14)
-     LUT4:I3->O            2   0.704   0.451  AL15/cout (co15)
-     LUT4:I3->O            2   0.704   0.451  AL16/cout (co16)
-     LUT4:I3->O            2   0.704   0.451  AL17/cout (co17)
-     LUT4:I3->O            2   0.704   0.451  AL18/cout (co18)
-     LUT4:I3->O            2   0.704   0.451  AL19/cout (co19)
-     LUT4:I3->O            2   0.704   0.451  AL20/cout (co20)
-     LUT4:I3->O            2   0.704   0.451  AL21/cout (co21)
-     LUT4:I3->O            2   0.704   0.451  AL22/cout (co22)
-     LUT4:I3->O            2   0.704   0.451  AL23/cout (co23)
-     LUT4:I3->O            2   0.704   0.451  AL24/cout (co24)
-     LUT4:I3->O            2   0.704   0.451  AL25/cout (co25)
-     LUT4:I3->O            2   0.704   0.451  AL26/cout (co26)
-     LUT4:I3->O            2   0.704   0.451  AL27/cout (co27)
-     LUT4:I3->O            2   0.704   0.451  AL28/cout (co28)
-     LUT4:I3->O            2   0.704   0.451  AL29/cout (co29)
-     LUT4:I3->O            2   0.704   0.526  AL30/cout (co30)
+     LUT4:I3->O            1   0.704   0.455  AL14/cout (co14)
+     LUT4:I2->O            1   0.704   0.499  AL15/cout_SW1 (N297)
+     LUT4:I1->O            2   0.704   0.482  AL15/cout (co15)
+     LUT4:I2->O            1   0.704   0.499  AL16/cout_SW1 (N295)
+     LUT4:I1->O            2   0.704   0.482  AL16/cout (co16)
+     LUT4:I2->O            1   0.704   0.499  AL17/cout_SW1 (N293)
+     LUT4:I1->O            2   0.704   0.482  AL17/cout (co17)
+     LUT4:I2->O            1   0.704   0.499  AL18/cout_SW1 (N291)
+     LUT4:I1->O            2   0.704   0.482  AL18/cout (co18)
+     LUT4:I2->O            1   0.704   0.499  AL19/cout_SW1 (N289)
+     LUT4:I1->O            2   0.704   0.482  AL19/cout (co19)
+     LUT4:I2->O            1   0.704   0.499  AL20/cout_SW1 (N287)
+     LUT4:I1->O            2   0.704   0.482  AL20/cout (co20)
+     LUT4:I2->O            1   0.704   0.499  AL21/cout_SW1 (N285)
+     LUT4:I1->O            2   0.704   0.482  AL21/cout (co21)
+     LUT4:I2->O            1   0.704   0.499  AL22/cout_SW1 (N283)
+     LUT4:I1->O            2   0.704   0.482  AL22/cout (co22)
+     LUT4:I2->O            1   0.704   0.499  AL23/cout_SW1 (N281)
+     LUT4:I1->O            2   0.704   0.482  AL23/cout (co23)
+     LUT4:I2->O            1   0.704   0.499  AL24/cout_SW1 (N279)
+     LUT4:I1->O            2   0.704   0.482  AL24/cout (co24)
+     LUT4:I2->O            1   0.704   0.499  AL25/cout_SW1 (N277)
+     LUT4:I1->O            2   0.704   0.482  AL25/cout (co25)
+     LUT4:I2->O            1   0.704   0.499  AL26/cout_SW1 (N275)
+     LUT4:I1->O            2   0.704   0.482  AL26/cout (co26)
+     LUT4:I2->O            1   0.704   0.499  AL27/cout_SW1 (N273)
+     LUT4:I1->O            2   0.704   0.482  AL27/cout (co27)
+     LUT4:I2->O            1   0.704   0.499  AL28/cout_SW1 (N271)
+     LUT4:I1->O            2   0.704   0.482  AL28/cout (co28)
+     LUT4:I2->O            1   0.704   0.499  AL29/cout_SW1 (N269)
+     LUT4:I1->O            2   0.704   0.482  AL29/cout (co29)
+     LUT4:I2->O            1   0.704   0.499  AL30/cout_SW1 (N267)
+     LUT4:I1->O            2   0.704   0.526  AL30/cout (co30)
      LUT4:I1->O            1   0.704   0.000  AL31/Mmux_result21 (AL31/Mmux_result2)
-     MUXF5:I1->O           5   0.321   0.808  AL31/Mmux_result2_f5 (alu_result<31>)
-     LUT4:I0->O            1   0.704   0.455  overflow52 (overflow52)
-     LUT3:I2->O            1   0.704   0.420  overflow79 (overflow_OBUF)
-     OBUF:I->O                 3.272          overflow_OBUF (overflow)
+     MUXF5:I1->O           5   0.321   0.637  AL31/Mmux_result2_f5 (alu_result<31>)
+     LUT4:I3->O            2   0.704   0.482  Mmux_result186 (Mmux_result186)
+     LUT3:I2->O            1   0.704   0.499  Mmux_result194 (Mmux_result)
+     LUT4:I1->O            1   0.704   0.000  zero_wg_lut<15> (zero_wg_lut<15>)
+     MUXCY:S->O            1   0.864   0.420  zero_wg_cy<15> (zero_OBUF)
+     OBUF:I->O                 3.272          zero_OBUF (zero)
     ----------------------------------------
-    Total                     49.488ns (30.155ns logic, 19.333ns route)
-                                       (60.9% logic, 39.1% route)
+    Total                     68.622ns (42.283ns logic, 26.339ns route)
+                                       (61.6% logic, 38.4% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 11.00 secs
-Total CPU time to Xst completion: 10.11 secs
+Total REAL time to Xst completion: 14.00 secs
+Total CPU time to Xst completion: 13.09 secs
  
 --> 
 
-Total memory usage is 256208 kilobytes
+Total memory usage is 303764 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)
