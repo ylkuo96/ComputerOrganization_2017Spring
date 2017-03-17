@@ -1,7 +1,9 @@
 # Lab1  
 ## implement a basic 32-bit ALU
- 
 
+**1. The Source Codes are in the "sourceCode" directory**
+
+**2. This project uses Xilinx ISE 14.7**
 
 ## ALU I/O
 ```Verilog
