@@ -33,9 +33,6 @@ reg             cout;
 reg             overflow;
 
 
-
-
-
 parameter ALU_AND  = 4'b0000;
 parameter ALU_OR   = 4'b0001;
 parameter ALU_ADD  = 4'b0010;
@@ -99,7 +96,6 @@ alu_top AL31( src1[31], src2[31], ZERO_1, aInvert,  bInvert, co30, opcode, lessO
 //                src1,     src2,   less, Ainvert,  Binvert,  cin, operation, lessOut,      alu_result, cout
 
 
-
 assign opcode = ( (ALU_control==ALU_AND) || (ALU_control==ALU_NOR)  )? ALU_AND[3:4] :
                 ( (ALU_control==ALU_OR ) || (ALU_control==ALU_NAND) )? ALU_OR [3:4] :
                 ( (ALU_control==ALU_ADD) || (ALU_control==ALU_SUB)  )? ALU_ADD[3:4] :
@@ -110,24 +106,33 @@ always@(*)begin
     result <= 1'b0 ;
     zero <= 1'b0;
     cout <= 1'b0;
-    overflow <= 1'b0
+    overflow <= 1'b0;
   end 
   else begin
     result <= ( ALU_control == ALU_SLT ) ? lessOut : alu_result; 
     zero   <= !result ;
     cout   <= ( (ALU_control == ALU_ADD) || (ALU_control == ALU_SUB) ) ? co31 : 1'b0; 
-    //overflow 
+
+    //overflow detection  
+    case( alu_result[31] )
+      //result is nagative
+      1'b1:begin
+        if(       (ALU_control == ALU_ADD)  &&  ~( src1[31] |  src2[31]  ) ) overflow <= 1'b1; //src1,src2 are both positive
+        else if ( (ALU_control == ALU_SUB)  &&  ((~src1[31]) & src2[31]  ) ) overflow <= 1'b1;
+        else overflow <= 1'b0;
+      end
+      1'b0:begin
+        if(       (ALU_control == ALU_ADD)  && ( src1[31] &   src2[31])    ) overflow <= 1'b1; //src1,src2 are both positive
+        else if ( (ALU_control == ALU_SUB)  && ( src1[31] & (~src2[31]) )  ) overflow <= 1'b1;
+        else overflow <= 1'b0;
+      end
+      default: overflow <= 1'b0 ;
+    endcase
+
   end
 
 end
 
-
-//overflow detection 
-/*
-always@(*)begin
-
-end
-*/
 
 
 endmodule
