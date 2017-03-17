@@ -1,0 +1,4 @@
+MO half_adder NULL sourceCode/half_adder.v vlg5A/half__adder.bin 1489724851
+MO alu_top NULL sourceCode/alu_top.v vlg3C/alu__top.bin 1489724852
+MO full_adder NULL sourceCode/full_adder.v vlg5A/full__adder.bin 1489724851
+MO alu NULL sourceCode/alu.v vlg0A/alu.bin 1489724852

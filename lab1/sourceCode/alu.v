@@ -1,5 +1,4 @@
-//Student 1 : 0411276 Chen-Yi-An 陳奕安
-//Student 2 : 0413335 郭逸琳
+//Student 1 : 0411276 Chen-Yi-An ���//Student 2 : 0413335 �逸琳
 `timescale 1ns/1ps
 
 module alu(
@@ -96,11 +95,11 @@ alu_top AL31( src1[31], src2[31], ZERO_1, aInvert,  bInvert, co30, opcode, lessO
 //                src1,     src2,   less, Ainvert,  Binvert,  cin, operation, lessOut,      alu_result, cout
 
 
-assign opcode = ( (ALU_control==ALU_AND) || (ALU_control==ALU_NOR)  )? ALU_AND[3:4] :
-                ( (ALU_control==ALU_OR ) || (ALU_control==ALU_NAND) )? ALU_OR [3:4] :
-                ( (ALU_control==ALU_ADD) || (ALU_control==ALU_SUB)  )? ALU_ADD[3:4] :
-                                            (ALU_control==ALU_SLT )  ? ALU_SLT[3:4] : 
-                                                                                     2'bxx;
+assign opcode = ( (ALU_control==ALU_AND) || (ALU_control==ALU_NOR)  )? 2'b00 :
+                ( (ALU_control==ALU_OR ) || (ALU_control==ALU_NAND) )? 2'b01 :
+                ( (ALU_control==ALU_ADD) || (ALU_control==ALU_SUB)  )? 2'b10 :
+                                            (ALU_control==ALU_SLT )  ? 2'b11 : 
+                                                                                2'bxx;
 always@(*)begin
   if( !rst_n )begin
     result <= 1'b0 ;

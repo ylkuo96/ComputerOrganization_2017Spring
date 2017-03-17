@@ -1,4 +1,5 @@
-//Student1 : 0411276 Chen-Yi-An //Student2 : 0413335 
+//Student1 : 0411276 Chen-Yi-An 
+//Student2 : 0413335 
 `timescale 1ns/1ps
 module alu_top(
                src1,       //1 bit source 1 (input)

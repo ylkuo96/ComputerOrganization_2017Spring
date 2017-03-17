@@ -1,0 +1,4 @@
+verilog work "sourceCode/half_adder.v"
+verilog work "sourceCode/full_adder.v"
+verilog work "sourceCode/alu_top.v"
+verilog work "sourceCode/alu.v"
