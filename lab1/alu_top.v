@@ -22,6 +22,7 @@ input         B_invert;
 input         cin;
 input [2-1:0] operation;
 
+output        less_out;
 output        result;
 output        cout;
 
@@ -31,14 +32,32 @@ parameter ALU_AND  = 2'b00;
 parameter ALU_OR   = 2'b01;
 parameter ALU_ADD  = 2'b10;
 parameter ALU_SLT  = 2'b11;
-// In operation SLT, ALU must calculate the sum and actually output the carryout and "result" (of addition)
+
+wire s1, s2 ;//src1 & src2 under the signal A_invert & B_invert
+wire fa_sum ;
+wire fa_cout ;
+assign s1 = A_invert == 1'b1 ? ~src1 : src1;
+assign s2 = B_invert == 1'b1 ? ~src2 : src2; 
+
+
+
+full_adder fa1( .a(s1), .b(s2), .cin(cin), .sum(fa_sum), .cout(fa_cout) );
+
+
 //  the less_outport in operation SLT equal to "less" port.
 assign less_out = less;
 
+// In operation SLT, ALU must calculate the sum and actually output the carryout and "result" (of addition)
+assign cout =(  (operation == ALU_AND) || (operation== ALU_SLT ) ) ? fa_cout : 1'b0;
 
-always@( * )
-begin
-
+always@( * )begin
+    case( operation )
+        ALU_AND: result <= s1 & s2;
+        ALU_OR : result <= s1 | s2;
+        ALU_ADD: result <= fa_sum;
+        ALU_SLT: result <= fa_sum;
+        default : result <= 1'b0;        
+    endcase 
 end
 
 endmodule
