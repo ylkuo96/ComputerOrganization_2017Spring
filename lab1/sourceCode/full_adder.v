@@ -1,3 +1,5 @@
+//Student 1 : 0411276 Chen-Yi-An
+//Student 2 : 0413335
 module full_adder(
 input a,
 input b,

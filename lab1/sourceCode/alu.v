@@ -1,4 +1,5 @@
-//Student 1 : 0411276 Chen-Yi-An ����//Student 2 : 0413335 �逸琳
+//Student 1 : 0411276 Chen-Yi-An 
+//Student 2 : 0413335
 `timescale 1ns/1ps
 
 module alu(
@@ -41,7 +42,7 @@ parameter ALU_NAND = 4'b1101;
 parameter ALU_SLT  = 4'b0111;
 
 // 1 bit hard-wired zero 
-parameter ZERO_1   = 1'b0;
+parameter ZERO_1   = 1'b1;
 
 
 wire aInvert, bInvert;
@@ -52,11 +53,12 @@ wire  complementAddOne;//Used in substraction or SLT
 wire  [32-1:0]lessOut; 
 wire  [32-1:0]alu_result;
 assign aInvert = ( (ALU_control == ALU_NOR ) || ( ALU_control == ALU_NAND ) ) ? 1'b1 : 1'b0;
-assign bInvert = ( (ALU_control == ALU_SUB ) || ( ALU_control == ALU_NOR ) || ( ALU_control == ALU_NAND ) || (ALU_control == ALU_SLT )) ? 1'b1 : 1'b0;
+assign bInvert = ( (ALU_control == ALU_SUB ) || ( ALU_control == ALU_NOR ) || ( ALU_control == ALU_NAND )) ? 1'b1 : 1'b0;
 assign complementAddOne = ( (ALU_control == ALU_SUB) || ( ALU_control == ALU_SLT) )? 1'b1 : 1'b0; 
 
 
-//            src1,         src2,          less, Ainvert,  Binvert, cin,           operation,     lessOut,     alu_result, cout
+//Need 32 instance 
+//            src1,         src2,      less, Ainvert,  Binvert, cin,           operation,     lessOut,     alu_result, cout
 alu_top AL00( src1[ 0], src2[ 0],alu_result[31], aInvert,  bInvert, complementAddOne, opcode, lessOut[ 0], alu_result[ 0], co00 );
 
 //                src1,     src2,   less, Ainvert,  Binvert,  cin, operation, lessOut,      alu_result, cout
