@@ -24,7 +24,7 @@
 
 
 
-static void Gate_14_0(char *t0)
+static void Gate_16_0(char *t0)
 {
     char *t1;
     char *t2;
@@ -65,7 +65,7 @@ LAB1:    return;
 
 extern void work_m_00000000001733448886_3190593924_init()
 {
-	static char *pe[] = {(void *)Gate_14_0};
+	static char *pe[] = {(void *)Gate_16_0};
 	xsi_register_didat("work_m_00000000001733448886_3190593924", "isim/testbench_isim_beh.exe.sim/work/m_00000000001733448886_3190593924.didat");
 	xsi_register_executes(pe);
 }

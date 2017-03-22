@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "//Mac/Home/Desktop/ComputerOrgan/code/lab1/testbench/basic_data/testbench.v";
+static const char *ng0 = "//Mac/Home/Desktop/ComputerOrgan/code/lab1/testbench.v";
 static int ng1[] = {1, 0};
 static int ng2[] = {4, 0};
 static unsigned int ng3[] = {0U, 0U};
@@ -34,7 +34,7 @@ static const char *ng9 = "op.txt";
 static const char *ng10 = "bonus.txt";
 static const char *ng11 = "result.txt";
 static const char *ng12 = "zcv.txt";
-static unsigned int ng13[] = {7U, 0U};
+static unsigned int ng13[] = {11U, 0U};
 static const char *ng14 = "***************************************************";
 static const char *ng15 = " Congratulation! All data are correct! ";
 static unsigned int ng16[] = {6U, 0U};
@@ -45,18 +45,19 @@ static const char *ng20 = " AND error! ";
 static const char *ng21 = " OR error! ";
 static const char *ng22 = " ADD error! ";
 static const char *ng23 = " SUB error! ";
-static const char *ng24 = " SLT error! ";
-static const char *ng25 = " SEQ error! ";
-static const char *ng26 = " SGT error! ";
-static const char *ng27 = " SLE error! ";
-static const char *ng28 = " SGE error! ";
-static unsigned int ng29[] = {4U, 0U};
-static const char *ng30 = " SNE error! ";
-static unsigned int ng31[] = {12U, 0U};
-static const char *ng32 = " NOR error! ";
-static unsigned int ng33[] = {13U, 0U};
-static const char *ng34 = " NAND error! ";
-static const char *ng35 = " Your result: %h     Your ZCV: %b\n";
+static unsigned int ng24[] = {7U, 0U};
+static const char *ng25 = " SLT error! ";
+static const char *ng26 = " SEQ error! ";
+static const char *ng27 = " SGT error! ";
+static const char *ng28 = " SLE error! ";
+static const char *ng29 = " SGE error! ";
+static unsigned int ng30[] = {4U, 0U};
+static const char *ng31 = " SNE error! ";
+static unsigned int ng32[] = {12U, 0U};
+static const char *ng33 = " NOR error! ";
+static unsigned int ng34[] = {13U, 0U};
+static const char *ng35 = " NAND error! ";
+static const char *ng36 = " Your result: %h     Your ZCV: %b\n";
 
 
 
@@ -1657,17 +1658,17 @@ LAB80:    t2 = ((char*)((ng16)));
     if (t150 == 1)
         goto LAB81;
 
-LAB82:    t2 = ((char*)((ng13)));
+LAB82:    t2 = ((char*)((ng24)));
     t150 = xsi_vlog_unsigned_case_compare(t25, 8, t2, 8);
     if (t150 == 1)
         goto LAB83;
 
-LAB84:    t2 = ((char*)((ng31)));
+LAB84:    t2 = ((char*)((ng32)));
     t150 = xsi_vlog_unsigned_case_compare(t25, 8, t2, 8);
     if (t150 == 1)
         goto LAB85;
 
-LAB86:    t2 = ((char*)((ng33)));
+LAB86:    t2 = ((char*)((ng34)));
     t150 = xsi_vlog_unsigned_case_compare(t25, 8, t2, 8);
     if (t150 == 1)
         goto LAB87;
@@ -1706,7 +1707,7 @@ LAB91:    xsi_set_current_line(196, ng0);
     t3 = *((char **)t2);
     t2 = (t0 + 1824U);
     t5 = *((char **)t2);
-    xsi_vlogfile_write(1, 0, 0, ng35, 3, t0, (char)118, t3, 32, (char)118, t5, 3);
+    xsi_vlogfile_write(1, 0, 0, ng36, 3, t0, (char)118, t3, 32, (char)118, t5, 3);
     xsi_set_current_line(199, ng0);
     xsi_vlogfile_write(1, 0, 0, ng14, 1, t0);
     xsi_set_current_line(200, ng0);
@@ -2271,7 +2272,7 @@ LAB100:    t2 = ((char*)((ng6)));
     if (t150 == 1)
         goto LAB101;
 
-LAB102:    t2 = ((char*)((ng29)));
+LAB102:    t2 = ((char*)((ng30)));
     t150 = xsi_vlog_unsigned_case_compare(t4, 8, t2, 8);
     if (t150 == 1)
         goto LAB103;
@@ -2284,43 +2285,43 @@ LAB108:
 LAB107:    goto LAB91;
 
 LAB85:    xsi_set_current_line(191, ng0);
-    xsi_vlogfile_write(1, 0, 0, ng32, 1, t0);
+    xsi_vlogfile_write(1, 0, 0, ng33, 1, t0);
     goto LAB91;
 
 LAB87:    xsi_set_current_line(192, ng0);
-    xsi_vlogfile_write(1, 0, 0, ng34, 1, t0);
+    xsi_vlogfile_write(1, 0, 0, ng35, 1, t0);
     goto LAB91;
 
 LAB93:    xsi_set_current_line(182, ng0);
-    xsi_vlogfile_write(1, 0, 0, ng24, 1, t0);
-    goto LAB107;
-
-LAB95:    xsi_set_current_line(183, ng0);
     xsi_vlogfile_write(1, 0, 0, ng25, 1, t0);
     goto LAB107;
 
-LAB97:    xsi_set_current_line(184, ng0);
+LAB95:    xsi_set_current_line(183, ng0);
     xsi_vlogfile_write(1, 0, 0, ng26, 1, t0);
     goto LAB107;
 
-LAB99:    xsi_set_current_line(185, ng0);
+LAB97:    xsi_set_current_line(184, ng0);
     xsi_vlogfile_write(1, 0, 0, ng27, 1, t0);
     goto LAB107;
 
-LAB101:    xsi_set_current_line(186, ng0);
+LAB99:    xsi_set_current_line(185, ng0);
     xsi_vlogfile_write(1, 0, 0, ng28, 1, t0);
     goto LAB107;
 
+LAB101:    xsi_set_current_line(186, ng0);
+    xsi_vlogfile_write(1, 0, 0, ng29, 1, t0);
+    goto LAB107;
+
 LAB103:    xsi_set_current_line(187, ng0);
-    xsi_vlogfile_write(1, 0, 0, ng30, 1, t0);
+    xsi_vlogfile_write(1, 0, 0, ng31, 1, t0);
     goto LAB107;
 
 }
 
 
-extern void work_m_00000000002483670098_1949178628_init()
+extern void work_m_00000000002483670131_1949178628_init()
 {
 	static char *pe[] = {(void *)Cont_64_0,(void *)Cont_65_1,(void *)Cont_66_2,(void *)Cont_67_3,(void *)Cont_68_4,(void *)Cont_72_5,(void *)Initial_74_6,(void *)Always_97_7,(void *)Always_124_8,(void *)Always_148_9};
-	xsi_register_didat("work_m_00000000002483670098_1949178628", "isim/testbench_isim_beh.exe.sim/work/m_00000000002483670098_1949178628.didat");
+	xsi_register_didat("work_m_00000000002483670131_1949178628", "isim/testbench_isim_beh.exe.sim/work/m_00000000002483670131_1949178628.didat");
 	xsi_register_executes(pe);
 }

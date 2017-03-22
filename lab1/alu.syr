@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.28 secs
+Total CPU time to Xst completion: 0.44 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.28 secs
+Total CPU time to Xst completion: 0.44 secs
  
 --> Reading design: alu.prj
 
@@ -107,10 +107,14 @@ Slice Utilization Ratio Delta      : 5
 Compiling verilog file "sourceCode/half_adder.v" in library work
 Compiling verilog file "sourceCode/full_adder.v" in library work
 Module <half_adder> compiled
-Compiling verilog file "sourceCode/alu_top.v" in library work
+Compiling verilog file "sourceCode/compare.v" in library work
 Module <full_adder> compiled
-Compiling verilog file "sourceCode/alu.v" in library work
+Compiling verilog file "sourceCode/alu_top.v" in library work
+Module <compare> compiled
+Compiling verilog file "sourceCode/alu_bottom.v" in library work
 Module <alu_top> compiled
+Compiling verilog file "sourceCode/alu.v" in library work
+Module <alu_bottom> compiled
 Module <alu> compiled
 No errors in compilation
 Analysis of file <"alu.prj"> succeeded.
@@ -125,15 +129,31 @@ Analyzing hierarchy for module <alu> in library <work> with parameters.
 	ALU_NAND = "1101"
 	ALU_NOR = "1100"
 	ALU_OR = "0001"
-	ALU_SLT = "0111"
+	ALU_SET = "0111"
 	ALU_SUB = "0110"
-	ZERO_1 = "0"
+	INVALID = "111"
+	ZERO_1 = "1"
 
 Analyzing hierarchy for module <alu_top> in library <work> with parameters.
 	ALU_ADD = "10"
 	ALU_AND = "00"
 	ALU_OR = "01"
-	ALU_SLT = "11"
+	ALU_SET = "11"
+
+Analyzing hierarchy for module <alu_bottom> in library <work> with parameters.
+	ALU_ADD = "10"
+	ALU_AND = "00"
+	ALU_OR = "01"
+	ALU_SET = "11"
+
+Analyzing hierarchy for module <compare> in library <work> with parameters.
+	E = "110"
+	GE = "011"
+	GT = "001"
+	INVALID = "111"
+	LE = "010"
+	LT = "000"
+	nE = "100"
 
 Analyzing hierarchy for module <full_adder> in library <work>.
 
@@ -149,17 +169,28 @@ Analyzing top module <alu>.
 	ALU_NAND = 4'b1101
 	ALU_NOR = 4'b1100
 	ALU_OR = 4'b0001
-	ALU_SLT = 4'b0111
+	ALU_SET = 4'b0111
 	ALU_SUB = 4'b0110
-	ZERO_1 = 1'b0
+	INVALID = 3'b111
+	ZERO_1 = 1'b1
 Module <alu> is correct for synthesis.
  
 Analyzing module <alu_top> in library <work>.
 	ALU_ADD = 2'b10
 	ALU_AND = 2'b00
 	ALU_OR = 2'b01
-	ALU_SLT = 2'b11
+	ALU_SET = 2'b11
 Module <alu_top> is correct for synthesis.
+ 
+Analyzing module <compare> in library <work>.
+	E = 3'b110
+	GE = 3'b011
+	GT = 3'b001
+	INVALID = 3'b111
+	LE = 3'b010
+	LT = 3'b000
+	nE = 3'b100
+Module <compare> is correct for synthesis.
  
 Analyzing module <full_adder> in library <work>.
 Module <full_adder> is correct for synthesis.
@@ -167,12 +198,27 @@ Module <full_adder> is correct for synthesis.
 Analyzing module <half_adder> in library <work>.
 Module <half_adder> is correct for synthesis.
  
+Analyzing module <alu_bottom> in library <work>.
+	ALU_ADD = 2'b10
+	ALU_AND = 2'b00
+	ALU_OR = 2'b01
+	ALU_SET = 2'b11
+Module <alu_bottom> is correct for synthesis.
+ 
 
 =========================================================================
 *                           HDL Synthesis                               *
 =========================================================================
 
 Performing bidirectional port resolution...
+
+Synthesizing Unit <compare>.
+    Related source file is "sourceCode/compare.v".
+    Found 1-bit 8-to-1 multiplexer for signal <out>.
+    Summary:
+	inferred   1 Multiplexer(s).
+Unit <compare> synthesized.
+
 
 Synthesizing Unit <half_adder>.
     Related source file is "sourceCode/half_adder.v".
@@ -193,11 +239,51 @@ Synthesizing Unit <alu_top>.
 Unit <alu_top> synthesized.
 
 
+Synthesizing Unit <alu_bottom>.
+    Related source file is "sourceCode/alu_bottom.v".
+WARNING:Xst:647 - Input <comp> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <less> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <equal> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 1-bit 4-to-1 multiplexer for signal <result>.
+    Summary:
+	inferred   1 Multiplexer(s).
+Unit <alu_bottom> synthesized.
+
+
 Synthesizing Unit <alu>.
     Related source file is "sourceCode/alu.v".
-    Found 32-bit 4-to-1 multiplexer for signal <result>.
-    Summary:
-	inferred  32 Multiplexer(s).
+    Found 1-bit xor2 for signal <equal$xor0000> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0001> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0002> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0003> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0004> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0005> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0006> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0007> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0008> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0009> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0010> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0011> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0012> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0013> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0014> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0015> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0016> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0017> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0018> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0019> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0020> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0021> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0022> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0023> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0024> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0025> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0026> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0027> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0028> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0029> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0030> created at line 47.
+    Found 1-bit xor2 for signal <equal$xor0031> created at line 47.
 Unit <alu> synthesized.
 
 
@@ -205,11 +291,11 @@ Unit <alu> synthesized.
 HDL Synthesis Report
 
 Macro Statistics
-# Multiplexers                                         : 33
+# Multiplexers                                         : 63
  1-bit 4-to-1 multiplexer                              : 32
- 32-bit 4-to-1 multiplexer                             : 1
-# Xors                                                 : 64
- 1-bit xor2                                            : 64
+ 1-bit 8-to-1 multiplexer                              : 31
+# Xors                                                 : 96
+ 1-bit xor2                                            : 96
 
 =========================================================================
 
@@ -222,11 +308,11 @@ Macro Statistics
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# Multiplexers                                         : 33
+# Multiplexers                                         : 63
  1-bit 4-to-1 multiplexer                              : 32
- 32-bit 4-to-1 multiplexer                             : 1
-# Xors                                                 : 64
- 1-bit xor2                                            : 64
+ 1-bit 8-to-1 multiplexer                              : 31
+# Xors                                                 : 96
+ 1-bit xor2                                            : 96
 
 =========================================================================
 
@@ -235,6 +321,8 @@ Macro Statistics
 =========================================================================
 
 Optimizing unit <alu> ...
+
+Optimizing unit <alu_top> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
@@ -270,18 +358,20 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 104
+# IOs                              : 107
 
 Cell Usage :
-# BELS                             : 289
+# BELS                             : 318
 #      GND                         : 1
-#      LUT3                        : 6
-#      LUT4                        : 249
-#      MUXCY                       : 16
-#      MUXF5                       : 16
+#      LUT2                        : 64
+#      LUT3                        : 36
+#      LUT4                        : 158
+#      MUXCY                       : 23
+#      MUXF5                       : 34
+#      MUXF6                       : 1
 #      VCC                         : 1
-# IO Buffers                       : 104
-#      IBUF                        : 69
+# IO Buffers                       : 107
+#      IBUF                        : 72
 #      OBUF                        : 35
 =========================================================================
 
@@ -291,9 +381,9 @@ Device utilization summary:
 Selected Device : 3s500efg320-4 
 
  Number of Slices:                      143  out of   4656     3%  
- Number of 4 input LUTs:                255  out of   9312     2%  
- Number of IOs:                         104
- Number of bonded IOBs:                 104  out of    232    44%  
+ Number of 4 input LUTs:                258  out of   9312     2%  
+ Number of IOs:                         107
+ Number of bonded IOBs:                 107  out of    232    46%  
 
 ---------------------------
 Partition Resource Summary:
@@ -326,7 +416,7 @@ Speed Grade: -4
    Minimum period: No path found
    Minimum input arrival time before clock: No path found
    Maximum output required time after clock: No path found
-   Maximum combinational path delay: 68.622ns
+   Maximum combinational path delay: 90.013ns
 
 Timing Detail:
 --------------
@@ -334,87 +424,104 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 14208 / 35
+  Total number of paths / destination ports: 14294 / 34
 -------------------------------------------------------------------------
-Delay:               68.622ns (Levels of Logic = 56)
+Delay:               90.013ns (Levels of Logic = 73)
   Source:            ALU_control<2> (PAD)
-  Destination:       zero (PAD)
+  Destination:       result<0> (PAD)
 
-  Data Path: ALU_control<2> to zero
+  Data Path: ALU_control<2> to result<0>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            74   1.218   1.310  ALU_control_2_IBUF (ALU_control_2_IBUF)
-     LUT4:I2->O            2   0.704   0.482  AL00/cout_SW0 (N265)
-     LUT3:I2->O            2   0.704   0.451  AL00/cout (co00)
-     LUT4:I3->O            2   0.704   0.451  AL01/cout (co01)
-     LUT4:I3->O            2   0.704   0.451  AL02/cout (co02)
-     LUT4:I3->O            2   0.704   0.451  AL03/cout (co03)
-     LUT4:I3->O            2   0.704   0.451  AL04/cout (co04)
-     LUT4:I3->O            2   0.704   0.451  AL05/cout (co05)
-     LUT4:I3->O            2   0.704   0.451  AL06/cout (co06)
-     LUT4:I3->O            2   0.704   0.451  AL07/cout (co07)
-     LUT4:I3->O            2   0.704   0.451  AL08/cout (co08)
-     LUT4:I3->O            2   0.704   0.451  AL09/cout (co09)
-     LUT4:I3->O            2   0.704   0.451  AL10/cout (co10)
-     LUT4:I3->O            2   0.704   0.451  AL11/cout (co11)
-     LUT4:I3->O            2   0.704   0.451  AL12/cout (co12)
-     LUT4:I3->O            2   0.704   0.451  AL13/cout (co13)
-     LUT4:I3->O            1   0.704   0.455  AL14/cout (co14)
-     LUT4:I2->O            1   0.704   0.499  AL15/cout_SW1 (N297)
+     IBUF:I->O            37   1.218   1.439  ALU_control_2_IBUF (ALU_control_2_IBUF)
+     LUT4:I0->O           32   0.704   1.437  bInvert_or00001 (bInvert)
+     LUT2:I0->O            3   0.704   0.535  AL00/s21 (AL00/s2)
+     LUT4:I3->O            1   0.704   0.455  AL00/cout_SW1 (N259)
+     LUT3:I2->O            2   0.704   0.482  AL00/cout (co00)
+     LUT4:I2->O            1   0.704   0.499  AL01/cout_SW0 (N257)
+     LUT4:I1->O            2   0.704   0.482  AL01/cout (co01)
+     LUT4:I2->O            1   0.704   0.499  AL02/cout_SW0 (N255)
+     LUT4:I1->O            2   0.704   0.482  AL02/cout (co02)
+     LUT4:I2->O            1   0.704   0.499  AL03/cout_SW0 (N253)
+     LUT4:I1->O            2   0.704   0.482  AL03/cout (co03)
+     LUT4:I2->O            1   0.704   0.499  AL04/cout_SW0 (N251)
+     LUT4:I1->O            2   0.704   0.482  AL04/cout (co04)
+     LUT4:I2->O            1   0.704   0.499  AL05/cout_SW0 (N249)
+     LUT4:I1->O            2   0.704   0.482  AL05/cout (co05)
+     LUT4:I2->O            1   0.704   0.499  AL06/cout_SW0 (N247)
+     LUT4:I1->O            2   0.704   0.482  AL06/cout (co06)
+     LUT4:I2->O            1   0.704   0.499  AL07/cout_SW0 (N245)
+     LUT4:I1->O            2   0.704   0.482  AL07/cout (co07)
+     LUT4:I2->O            1   0.704   0.499  AL08/cout_SW0 (N243)
+     LUT4:I1->O            2   0.704   0.482  AL08/cout (co08)
+     LUT4:I2->O            1   0.704   0.499  AL09/cout_SW0 (N241)
+     LUT4:I1->O            2   0.704   0.482  AL09/cout (co09)
+     LUT4:I2->O            1   0.704   0.499  AL10/cout_SW0 (N239)
+     LUT4:I1->O            2   0.704   0.482  AL10/cout (co10)
+     LUT4:I2->O            1   0.704   0.499  AL11/cout_SW0 (N237)
+     LUT4:I1->O            2   0.704   0.482  AL11/cout (co11)
+     LUT4:I2->O            1   0.704   0.499  AL12/cout_SW0 (N235)
+     LUT4:I1->O            2   0.704   0.482  AL12/cout (co12)
+     LUT4:I2->O            1   0.704   0.499  AL13/cout_SW0 (N233)
+     LUT4:I1->O            2   0.704   0.482  AL13/cout (co13)
+     LUT4:I2->O            1   0.704   0.499  AL14/cout_SW0 (N231)
+     LUT4:I1->O            2   0.704   0.482  AL14/cout (co14)
+     LUT4:I2->O            1   0.704   0.499  AL15/cout_SW0 (N229)
      LUT4:I1->O            2   0.704   0.482  AL15/cout (co15)
-     LUT4:I2->O            1   0.704   0.499  AL16/cout_SW1 (N295)
+     LUT4:I2->O            1   0.704   0.499  AL16/cout_SW0 (N227)
      LUT4:I1->O            2   0.704   0.482  AL16/cout (co16)
-     LUT4:I2->O            1   0.704   0.499  AL17/cout_SW1 (N293)
+     LUT4:I2->O            1   0.704   0.499  AL17/cout_SW0 (N225)
      LUT4:I1->O            2   0.704   0.482  AL17/cout (co17)
-     LUT4:I2->O            1   0.704   0.499  AL18/cout_SW1 (N291)
+     LUT4:I2->O            1   0.704   0.499  AL18/cout_SW0 (N223)
      LUT4:I1->O            2   0.704   0.482  AL18/cout (co18)
-     LUT4:I2->O            1   0.704   0.499  AL19/cout_SW1 (N289)
+     LUT4:I2->O            1   0.704   0.499  AL19/cout_SW0 (N221)
      LUT4:I1->O            2   0.704   0.482  AL19/cout (co19)
-     LUT4:I2->O            1   0.704   0.499  AL20/cout_SW1 (N287)
+     LUT4:I2->O            1   0.704   0.499  AL20/cout_SW0 (N219)
      LUT4:I1->O            2   0.704   0.482  AL20/cout (co20)
-     LUT4:I2->O            1   0.704   0.499  AL21/cout_SW1 (N285)
+     LUT4:I2->O            1   0.704   0.499  AL21/cout_SW0 (N217)
      LUT4:I1->O            2   0.704   0.482  AL21/cout (co21)
-     LUT4:I2->O            1   0.704   0.499  AL22/cout_SW1 (N283)
+     LUT4:I2->O            1   0.704   0.499  AL22/cout_SW0 (N215)
      LUT4:I1->O            2   0.704   0.482  AL22/cout (co22)
-     LUT4:I2->O            1   0.704   0.499  AL23/cout_SW1 (N281)
+     LUT4:I2->O            1   0.704   0.499  AL23/cout_SW0 (N213)
      LUT4:I1->O            2   0.704   0.482  AL23/cout (co23)
-     LUT4:I2->O            1   0.704   0.499  AL24/cout_SW1 (N279)
+     LUT4:I2->O            1   0.704   0.499  AL24/cout_SW0 (N211)
      LUT4:I1->O            2   0.704   0.482  AL24/cout (co24)
-     LUT4:I2->O            1   0.704   0.499  AL25/cout_SW1 (N277)
+     LUT4:I2->O            1   0.704   0.499  AL25/cout_SW0 (N209)
      LUT4:I1->O            2   0.704   0.482  AL25/cout (co25)
-     LUT4:I2->O            1   0.704   0.499  AL26/cout_SW1 (N275)
+     LUT4:I2->O            1   0.704   0.499  AL26/cout_SW0 (N207)
      LUT4:I1->O            2   0.704   0.482  AL26/cout (co26)
-     LUT4:I2->O            1   0.704   0.499  AL27/cout_SW1 (N273)
+     LUT4:I2->O            1   0.704   0.499  AL27/cout_SW0 (N205)
      LUT4:I1->O            2   0.704   0.482  AL27/cout (co27)
-     LUT4:I2->O            1   0.704   0.499  AL28/cout_SW1 (N271)
+     LUT4:I2->O            1   0.704   0.499  AL28/cout_SW0 (N203)
      LUT4:I1->O            2   0.704   0.482  AL28/cout (co28)
-     LUT4:I2->O            1   0.704   0.499  AL29/cout_SW1 (N269)
+     LUT4:I2->O            1   0.704   0.499  AL29/cout_SW0 (N201)
      LUT4:I1->O            2   0.704   0.482  AL29/cout (co29)
-     LUT4:I2->O            1   0.704   0.499  AL30/cout_SW1 (N267)
-     LUT4:I1->O            2   0.704   0.526  AL30/cout (co30)
-     LUT4:I1->O            1   0.704   0.000  AL31/Mmux_result21 (AL31/Mmux_result2)
-     MUXF5:I1->O           5   0.321   0.637  AL31/Mmux_result2_f5 (alu_result<31>)
-     LUT4:I3->O            2   0.704   0.482  Mmux_result186 (Mmux_result186)
-     LUT3:I2->O            1   0.704   0.499  Mmux_result194 (Mmux_result)
-     LUT4:I1->O            1   0.704   0.000  zero_wg_lut<15> (zero_wg_lut<15>)
-     MUXCY:S->O            1   0.864   0.420  zero_wg_cy<15> (zero_OBUF)
-     OBUF:I->O                 3.272          zero_OBUF (zero)
+     LUT4:I2->O            1   0.704   0.499  AL30/cout_SW0 (N199)
+     LUT4:I1->O            3   0.704   0.535  AL30/cout (co30)
+     LUT4:I3->O            2   0.704   0.622  AL31/fa1/cout1 (AL31/fa_cout)
+     LUT3:I0->O            2   0.704   0.451  AL31/less_out1 (less)
+     LUT4:I3->O            1   0.704   0.000  AL00/comp<2>_F (N261)
+     MUXF5:I0->O           1   0.321   0.455  AL00/comp<2> (AL00/comp<2>1)
+     LUT3:I2->O            1   0.704   0.000  AL00/Mmux_result_3 (AL00/Mmux_result_3)
+     MUXF5:I1->O           2   0.321   0.526  AL00/Mmux_result_2_f5 (AL00/result1)
+     LUT2:I1->O            1   0.704   0.420  result<0>1 (result_0_OBUF)
+     OBUF:I->O                 3.272          result_0_OBUF (result<0>)
     ----------------------------------------
-    Total                     68.622ns (42.283ns logic, 26.339ns route)
-                                       (61.6% logic, 38.4% route)
+    Total                     90.013ns (53.708ns logic, 36.305ns route)
+                                       (59.7% logic, 40.3% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 14.00 secs
-Total CPU time to Xst completion: 13.09 secs
+Total REAL time to Xst completion: 12.00 secs
+Total CPU time to Xst completion: 11.61 secs
  
 --> 
 
-Total memory usage is 303764 kilobytes
+Total memory usage is 299032 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :    0 (   0 filtered)
+Number of warnings :    3 (   0 filtered)
 Number of infos    :    0 (   0 filtered)
 
