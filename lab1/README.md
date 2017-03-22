@@ -27,7 +27,7 @@
 + Sub 
 + Nor
 + Nand
-+ Slt (Set less than) 
++ SET ( with bonus_control input ) 
 
 |ALU action | Name | ALU_control |
 |:-:        |:-:   |:-:|
@@ -37,9 +37,10 @@
 |Sub|Substract|0110|
 |Nor|Nor|1100|
 |Nand|Nand|1101|
-|Slt|Set less than|0111|
+|Set|Set|0111|
 
 __Bonus_instruction_set__
+
 |ALU action | Name | ALU_control |
 |:-:        |:-:   |:-:|
 |Slt|Set less than|0111_000|
