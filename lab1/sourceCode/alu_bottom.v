@@ -50,7 +50,7 @@ end
 //overflow detection
 always@(*)begin
     if( operation == ALU_ADD || operation == ALU_SET)begin
-        case( {src1,src2,fa_cout,B_invert} )
+        case( {src1,src2,fa_sum,B_invert} )
             4'b0010:overflow <= 1'b1;
             4'b0111:overflow <= 1'b1;
             4'b1100:overflow <= 1'b1;

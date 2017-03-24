@@ -25,7 +25,7 @@ parameter ALU_NAND = 4'b1101;
 parameter ALU_SET  = 4'b0111;
 
 // 1 bit hard-wired zero 
-parameter ZERO_1   = 1'b1;
+parameter ZERO_1   = 1'b0;
 
 //A value that is specified in compare.v
 // This can make alu_top output 1'b0 while operation = ALU_SET 

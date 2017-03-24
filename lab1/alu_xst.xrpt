@@ -5,7 +5,7 @@
     The structure and the elements are likely to change over the next few releases.
     This means code written to parse this file will need to be revisited each subsequent release.-->
 
-  <application stringID="Xst" timeStamp="Wed Mar 22 17:39:04 2017">
+  <application stringID="Xst" timeStamp="Fri Mar 24 12:49:38 2017">
     <section stringID="User_Env">
       <table stringID="User_EnvVar">
         <column stringID="variable"/>
@@ -141,11 +141,11 @@
         <item stringID="XST_IOS" value="107"/>
       </section>
       <section stringID="XST_CELL_USAGE">
-        <item dataType="int" stringID="XST_BELS" value="318">
+        <item dataType="int" stringID="XST_BELS" value="320">
           <item dataType="int" stringID="XST_GND" value="1"/>
           <item dataType="int" stringID="XST_LUT2" value="64"/>
-          <item dataType="int" stringID="XST_LUT3" value="36"/>
-          <item dataType="int" stringID="XST_LUT4" value="158"/>
+          <item dataType="int" stringID="XST_LUT3" value="37"/>
+          <item dataType="int" stringID="XST_LUT4" value="159"/>
           <item dataType="int" stringID="XST_MUXCY" value="23"/>
           <item dataType="int" stringID="XST_MUXF5" value="34"/>
           <item dataType="int" stringID="XST_MUXF6" value="1"/>
@@ -159,8 +159,8 @@
     </section>
     <section stringID="XST_DEVICE_UTILIZATION_SUMMARY">
       <item stringID="XST_SELECTED_DEVICE" value="3s500efg320-4"/>
-      <item AVAILABLE="4656" dataType="int" label="Number of Slices" stringID="XST_NUMBER_OF_SLICES" value="143"/>
-      <item AVAILABLE="9312" dataType="int" label="Number of 4 input LUTs" stringID="XST_NUMBER_OF_4_INPUT_LUTS" value="258"/>
+      <item AVAILABLE="4656" dataType="int" label="Number of Slices" stringID="XST_NUMBER_OF_SLICES" value="144"/>
+      <item AVAILABLE="9312" dataType="int" label="Number of 4 input LUTs" stringID="XST_NUMBER_OF_4_INPUT_LUTS" value="260"/>
       <item dataType="int" label="Number of IOs" stringID="XST_NUMBER_OF_IOS" value="107"/>
       <item AVAILABLE="232" dataType="int" label="Number of bonded IOBs" stringID="XST_NUMBER_OF_BONDED_IOBS" value="107"/>
     </section>

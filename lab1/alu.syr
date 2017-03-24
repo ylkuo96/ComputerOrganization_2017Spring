@@ -3,14 +3,14 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.44 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.19 secs
  
 --> Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.44 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.19 secs
  
 --> Reading design: alu.prj
 
@@ -132,7 +132,7 @@ Analyzing hierarchy for module <alu> in library <work> with parameters.
 	ALU_SET = "0111"
 	ALU_SUB = "0110"
 	INVALID = "111"
-	ZERO_1 = "1"
+	ZERO_1 = "0"
 
 Analyzing hierarchy for module <alu_top> in library <work> with parameters.
 	ALU_ADD = "10"
@@ -172,7 +172,7 @@ Analyzing top module <alu>.
 	ALU_SET = 4'b0111
 	ALU_SUB = 4'b0110
 	INVALID = 3'b111
-	ZERO_1 = 1'b1
+	ZERO_1 = 1'b0
 Module <alu> is correct for synthesis.
  
 Analyzing module <alu_top> in library <work>.
@@ -361,11 +361,11 @@ Design Statistics
 # IOs                              : 107
 
 Cell Usage :
-# BELS                             : 318
+# BELS                             : 320
 #      GND                         : 1
 #      LUT2                        : 64
-#      LUT3                        : 36
-#      LUT4                        : 158
+#      LUT3                        : 37
+#      LUT4                        : 159
 #      MUXCY                       : 23
 #      MUXF5                       : 34
 #      MUXF6                       : 1
@@ -380,8 +380,8 @@ Device utilization summary:
 
 Selected Device : 3s500efg320-4 
 
- Number of Slices:                      143  out of   4656     3%  
- Number of 4 input LUTs:                258  out of   9312     2%  
+ Number of Slices:                      144  out of   4656     3%  
+ Number of 4 input LUTs:                260  out of   9312     2%  
  Number of IOs:                         107
  Number of bonded IOBs:                 107  out of    232    46%  
 
@@ -416,7 +416,7 @@ Speed Grade: -4
    Minimum period: No path found
    Minimum input arrival time before clock: No path found
    Maximum output required time after clock: No path found
-   Maximum combinational path delay: 90.013ns
+   Maximum combinational path delay: 92.949ns
 
 Timing Detail:
 --------------
@@ -424,9 +424,9 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 14294 / 34
+  Total number of paths / destination ports: 14618 / 35
 -------------------------------------------------------------------------
-Delay:               90.013ns (Levels of Logic = 73)
+Delay:               92.949ns (Levels of Logic = 73)
   Source:            ALU_control<2> (PAD)
   Destination:       result<0> (PAD)
 
@@ -437,89 +437,89 @@ Delay:               90.013ns (Levels of Logic = 73)
      IBUF:I->O            37   1.218   1.439  ALU_control_2_IBUF (ALU_control_2_IBUF)
      LUT4:I0->O           32   0.704   1.437  bInvert_or00001 (bInvert)
      LUT2:I0->O            3   0.704   0.535  AL00/s21 (AL00/s2)
-     LUT4:I3->O            1   0.704   0.455  AL00/cout_SW1 (N259)
+     LUT4:I3->O            1   0.704   0.455  AL00/cout_SW1 (N260)
      LUT3:I2->O            2   0.704   0.482  AL00/cout (co00)
-     LUT4:I2->O            1   0.704   0.499  AL01/cout_SW0 (N257)
-     LUT4:I1->O            2   0.704   0.482  AL01/cout (co01)
-     LUT4:I2->O            1   0.704   0.499  AL02/cout_SW0 (N255)
-     LUT4:I1->O            2   0.704   0.482  AL02/cout (co02)
-     LUT4:I2->O            1   0.704   0.499  AL03/cout_SW0 (N253)
-     LUT4:I1->O            2   0.704   0.482  AL03/cout (co03)
-     LUT4:I2->O            1   0.704   0.499  AL04/cout_SW0 (N251)
-     LUT4:I1->O            2   0.704   0.482  AL04/cout (co04)
-     LUT4:I2->O            1   0.704   0.499  AL05/cout_SW0 (N249)
-     LUT4:I1->O            2   0.704   0.482  AL05/cout (co05)
-     LUT4:I2->O            1   0.704   0.499  AL06/cout_SW0 (N247)
-     LUT4:I1->O            2   0.704   0.482  AL06/cout (co06)
-     LUT4:I2->O            1   0.704   0.499  AL07/cout_SW0 (N245)
-     LUT4:I1->O            2   0.704   0.482  AL07/cout (co07)
-     LUT4:I2->O            1   0.704   0.499  AL08/cout_SW0 (N243)
-     LUT4:I1->O            2   0.704   0.482  AL08/cout (co08)
-     LUT4:I2->O            1   0.704   0.499  AL09/cout_SW0 (N241)
-     LUT4:I1->O            2   0.704   0.482  AL09/cout (co09)
-     LUT4:I2->O            1   0.704   0.499  AL10/cout_SW0 (N239)
-     LUT4:I1->O            2   0.704   0.482  AL10/cout (co10)
-     LUT4:I2->O            1   0.704   0.499  AL11/cout_SW0 (N237)
-     LUT4:I1->O            2   0.704   0.482  AL11/cout (co11)
-     LUT4:I2->O            1   0.704   0.499  AL12/cout_SW0 (N235)
-     LUT4:I1->O            2   0.704   0.482  AL12/cout (co12)
-     LUT4:I2->O            1   0.704   0.499  AL13/cout_SW0 (N233)
-     LUT4:I1->O            2   0.704   0.482  AL13/cout (co13)
-     LUT4:I2->O            1   0.704   0.499  AL14/cout_SW0 (N231)
-     LUT4:I1->O            2   0.704   0.482  AL14/cout (co14)
-     LUT4:I2->O            1   0.704   0.499  AL15/cout_SW0 (N229)
-     LUT4:I1->O            2   0.704   0.482  AL15/cout (co15)
-     LUT4:I2->O            1   0.704   0.499  AL16/cout_SW0 (N227)
-     LUT4:I1->O            2   0.704   0.482  AL16/cout (co16)
-     LUT4:I2->O            1   0.704   0.499  AL17/cout_SW0 (N225)
-     LUT4:I1->O            2   0.704   0.482  AL17/cout (co17)
-     LUT4:I2->O            1   0.704   0.499  AL18/cout_SW0 (N223)
-     LUT4:I1->O            2   0.704   0.482  AL18/cout (co18)
-     LUT4:I2->O            1   0.704   0.499  AL19/cout_SW0 (N221)
-     LUT4:I1->O            2   0.704   0.482  AL19/cout (co19)
-     LUT4:I2->O            1   0.704   0.499  AL20/cout_SW0 (N219)
-     LUT4:I1->O            2   0.704   0.482  AL20/cout (co20)
-     LUT4:I2->O            1   0.704   0.499  AL21/cout_SW0 (N217)
-     LUT4:I1->O            2   0.704   0.482  AL21/cout (co21)
-     LUT4:I2->O            1   0.704   0.499  AL22/cout_SW0 (N215)
-     LUT4:I1->O            2   0.704   0.482  AL22/cout (co22)
-     LUT4:I2->O            1   0.704   0.499  AL23/cout_SW0 (N213)
-     LUT4:I1->O            2   0.704   0.482  AL23/cout (co23)
-     LUT4:I2->O            1   0.704   0.499  AL24/cout_SW0 (N211)
-     LUT4:I1->O            2   0.704   0.482  AL24/cout (co24)
-     LUT4:I2->O            1   0.704   0.499  AL25/cout_SW0 (N209)
-     LUT4:I1->O            2   0.704   0.482  AL25/cout (co25)
-     LUT4:I2->O            1   0.704   0.499  AL26/cout_SW0 (N207)
-     LUT4:I1->O            2   0.704   0.482  AL26/cout (co26)
-     LUT4:I2->O            1   0.704   0.499  AL27/cout_SW0 (N205)
-     LUT4:I1->O            2   0.704   0.482  AL27/cout (co27)
-     LUT4:I2->O            1   0.704   0.499  AL28/cout_SW0 (N203)
-     LUT4:I1->O            2   0.704   0.482  AL28/cout (co28)
-     LUT4:I2->O            1   0.704   0.499  AL29/cout_SW0 (N201)
-     LUT4:I1->O            2   0.704   0.482  AL29/cout (co29)
-     LUT4:I2->O            1   0.704   0.499  AL30/cout_SW0 (N199)
-     LUT4:I1->O            3   0.704   0.535  AL30/cout (co30)
-     LUT4:I3->O            2   0.704   0.622  AL31/fa1/cout1 (AL31/fa_cout)
+     LUT4:I2->O            1   0.704   0.595  AL01/cout_SW0 (N258)
+     LUT4:I0->O            2   0.704   0.482  AL01/cout (co01)
+     LUT4:I2->O            1   0.704   0.595  AL02/cout_SW0 (N256)
+     LUT4:I0->O            2   0.704   0.482  AL02/cout (co02)
+     LUT4:I2->O            1   0.704   0.595  AL03/cout_SW0 (N254)
+     LUT4:I0->O            2   0.704   0.482  AL03/cout (co03)
+     LUT4:I2->O            1   0.704   0.595  AL04/cout_SW0 (N252)
+     LUT4:I0->O            2   0.704   0.482  AL04/cout (co04)
+     LUT4:I2->O            1   0.704   0.595  AL05/cout_SW0 (N250)
+     LUT4:I0->O            2   0.704   0.482  AL05/cout (co05)
+     LUT4:I2->O            1   0.704   0.595  AL06/cout_SW0 (N248)
+     LUT4:I0->O            2   0.704   0.482  AL06/cout (co06)
+     LUT4:I2->O            1   0.704   0.595  AL07/cout_SW0 (N246)
+     LUT4:I0->O            2   0.704   0.482  AL07/cout (co07)
+     LUT4:I2->O            1   0.704   0.595  AL08/cout_SW0 (N244)
+     LUT4:I0->O            2   0.704   0.482  AL08/cout (co08)
+     LUT4:I2->O            1   0.704   0.595  AL09/cout_SW0 (N242)
+     LUT4:I0->O            2   0.704   0.482  AL09/cout (co09)
+     LUT4:I2->O            1   0.704   0.595  AL10/cout_SW0 (N240)
+     LUT4:I0->O            2   0.704   0.482  AL10/cout (co10)
+     LUT4:I2->O            1   0.704   0.595  AL11/cout_SW0 (N238)
+     LUT4:I0->O            2   0.704   0.482  AL11/cout (co11)
+     LUT4:I2->O            1   0.704   0.595  AL12/cout_SW0 (N236)
+     LUT4:I0->O            2   0.704   0.482  AL12/cout (co12)
+     LUT4:I2->O            1   0.704   0.595  AL13/cout_SW0 (N234)
+     LUT4:I0->O            2   0.704   0.482  AL13/cout (co13)
+     LUT4:I2->O            1   0.704   0.595  AL14/cout_SW0 (N232)
+     LUT4:I0->O            2   0.704   0.482  AL14/cout (co14)
+     LUT4:I2->O            1   0.704   0.595  AL15/cout_SW0 (N230)
+     LUT4:I0->O            2   0.704   0.482  AL15/cout (co15)
+     LUT4:I2->O            1   0.704   0.595  AL16/cout_SW0 (N228)
+     LUT4:I0->O            2   0.704   0.482  AL16/cout (co16)
+     LUT4:I2->O            1   0.704   0.595  AL17/cout_SW0 (N226)
+     LUT4:I0->O            2   0.704   0.482  AL17/cout (co17)
+     LUT4:I2->O            1   0.704   0.595  AL18/cout_SW0 (N224)
+     LUT4:I0->O            2   0.704   0.482  AL18/cout (co18)
+     LUT4:I2->O            1   0.704   0.595  AL19/cout_SW0 (N222)
+     LUT4:I0->O            2   0.704   0.482  AL19/cout (co19)
+     LUT4:I2->O            1   0.704   0.595  AL20/cout_SW0 (N220)
+     LUT4:I0->O            2   0.704   0.482  AL20/cout (co20)
+     LUT4:I2->O            1   0.704   0.595  AL21/cout_SW0 (N218)
+     LUT4:I0->O            2   0.704   0.482  AL21/cout (co21)
+     LUT4:I2->O            1   0.704   0.595  AL22/cout_SW0 (N216)
+     LUT4:I0->O            2   0.704   0.482  AL22/cout (co22)
+     LUT4:I2->O            1   0.704   0.595  AL23/cout_SW0 (N214)
+     LUT4:I0->O            2   0.704   0.482  AL23/cout (co23)
+     LUT4:I2->O            1   0.704   0.595  AL24/cout_SW0 (N212)
+     LUT4:I0->O            2   0.704   0.482  AL24/cout (co24)
+     LUT4:I2->O            1   0.704   0.595  AL25/cout_SW0 (N210)
+     LUT4:I0->O            2   0.704   0.482  AL25/cout (co25)
+     LUT4:I2->O            1   0.704   0.595  AL26/cout_SW0 (N208)
+     LUT4:I0->O            2   0.704   0.482  AL26/cout (co26)
+     LUT4:I2->O            1   0.704   0.595  AL27/cout_SW0 (N206)
+     LUT4:I0->O            2   0.704   0.482  AL27/cout (co27)
+     LUT4:I2->O            1   0.704   0.595  AL28/cout_SW0 (N204)
+     LUT4:I0->O            2   0.704   0.482  AL28/cout (co28)
+     LUT4:I2->O            1   0.704   0.595  AL29/cout_SW0 (N202)
+     LUT4:I0->O            2   0.704   0.482  AL29/cout (co29)
+     LUT4:I2->O            1   0.704   0.595  AL30/cout_SW0 (N200)
+     LUT4:I0->O            4   0.704   0.591  AL30/cout (co30)
+     LUT4:I3->O            2   0.704   0.622  AL31/cout11 (N9)
      LUT3:I0->O            2   0.704   0.451  AL31/less_out1 (less)
-     LUT4:I3->O            1   0.704   0.000  AL00/comp<2>_F (N261)
+     LUT4:I3->O            1   0.704   0.000  AL00/comp<2>_F (N262)
      MUXF5:I0->O           1   0.321   0.455  AL00/comp<2> (AL00/comp<2>1)
      LUT3:I2->O            1   0.704   0.000  AL00/Mmux_result_3 (AL00/Mmux_result_3)
      MUXF5:I1->O           2   0.321   0.526  AL00/Mmux_result_2_f5 (AL00/result1)
      LUT2:I1->O            1   0.704   0.420  result<0>1 (result_0_OBUF)
      OBUF:I->O                 3.272          result_0_OBUF (result<0>)
     ----------------------------------------
-    Total                     90.013ns (53.708ns logic, 36.305ns route)
-                                       (59.7% logic, 40.3% route)
+    Total                     92.949ns (53.708ns logic, 39.241ns route)
+                                       (57.8% logic, 42.2% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 12.00 secs
-Total CPU time to Xst completion: 11.61 secs
+Total REAL time to Xst completion: 10.00 secs
+Total CPU time to Xst completion: 9.92 secs
  
 --> 
 
-Total memory usage is 299032 kilobytes
+Total memory usage is 298264 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    3 (   0 filtered)
