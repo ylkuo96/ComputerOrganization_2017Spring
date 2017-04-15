@@ -1,5 +1,5 @@
 //Student 1 : 0411276 Chen-Yi-An 
-//Student 2 : 0413335
+//Student 2 : 0413335 Kuo Yi Lin
 `timescale 1ns/1ps
 
 module alu(

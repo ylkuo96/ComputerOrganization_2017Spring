@@ -1,5 +1,5 @@
 //Student1 : 0411276 Chen-Yi-An 
-//Student2 : 0413335 
+//Student2 : 0413335 Kuo Yi Lin
 `timescale 1ns/1ps
 module alu_bottom(
 input               src1,       //1 bit source 1 (input)

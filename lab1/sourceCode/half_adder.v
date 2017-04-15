@@ -1,5 +1,5 @@
 //Student1 : 0411276 Chen-Yi-An 
-//Student2 : 0413335 
+//Student2 : 0413335 Kuo Yi Lin
 module half_adder(
 input a,
 input b,

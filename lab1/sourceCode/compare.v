@@ -1,3 +1,5 @@
+//Student1 : 0411276 Chen-Yi-An 
+//Student2 : 0413335 Kuo Yi Lin
 module compare(
     input   less,
     input   equal,
