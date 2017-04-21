@@ -29,10 +29,8 @@ reg     [size-1:0] data_o;
 
 //Main function
 always@(*)begin
-  data_0 = select_i == 1'b1? data1_i : data0_i;
+  data_0 <= ( select_i == 1'b1? data1_i : data0_i) ;
 end
-
-
 
 endmodule      
           
