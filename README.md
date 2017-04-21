@@ -2,4 +2,4 @@
 
 For undergraduate course Computer Organization in NCTU,2017 Spring 
 
-inly including codes for laboratory section 
+only including codes for laboratory section 
