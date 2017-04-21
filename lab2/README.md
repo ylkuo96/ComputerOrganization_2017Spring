@@ -2,6 +2,8 @@
 
 ## implement a single clock-cycle CPU 
 
+[The Notes for implementation](https://hackmd.io/JwNgTARsEIYwtAFgMYA4BmTQJgZhAmGACaIQQAMxAjLgKYRA)
+
 + these instructions are MIPS-like
 
 
@@ -14,8 +16,6 @@
     * slt  ( Set on Less Than )
     * sltu ( Set on Less Than Unsigned )
     * beq ( Branch on Equal)
-    * sll (Shift left logical) 
-
 
 + I-tpye instructions 
     * addi ( Add Immeidate )
