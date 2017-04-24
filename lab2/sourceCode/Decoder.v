@@ -34,11 +34,22 @@ reg            RegWrite_o;
 reg            RegDst_o;
 reg            Branch_o;
 
+//wire []op 
 //Parameter
 
-
 //Main function
-
+	always@(*)begin
+	  case (instr_op_i)
+		6'd0:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b000, 4'b_1010 };
+		6'd4:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b001, 4'b_01x1 };
+		6'd5:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b010, 4'b_00x1 };
+		6'd8:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b011, 4'b_1100 };
+		6'd13: {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b100, 4'b_1100 };
+		6'd15: {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b101, 4'b_1100 };
+		default: 
+		{  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'bxxx, 4'b_xxxx };
+	  endcase
+	end
 endmodule
 
 
