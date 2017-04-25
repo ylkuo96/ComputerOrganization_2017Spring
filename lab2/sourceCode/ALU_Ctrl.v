@@ -61,7 +61,7 @@ always @(*)begin
    
         { OP_FIELD_4,  6'h00 }: ALUCtrl_o = ALU_SUB  ;
         { OP_FIELD_5,  6'h00 }: ALUCtrl_o = ALU_BNE  ;
-        { OP_FIELD_8,  6'h00 }: ALUCtrl_o = ALU_ADD  ;
+        { OP_FIELD_8,  6'hxx }: ALUCtrl_o = ALU_ADD  ;
         { OP_FIELD_13, 6'h00 }: ALUCtrl_o = ALU_ORI  ;
         { OP_FIELD_15, 6'h00 }: ALUCtrl_o = ALU_LUI  ;
         default: 
