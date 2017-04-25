@@ -62,8 +62,8 @@ always @( *)begin
   case (ctrl_i)
   		ALU_AND		: result_o = src1_i & src2_i; 
 		ALU_OR		: result_o = src1_i | src2_i;
-		ALU_ADD		: result_o = src1_i + src2_i;
-		ALU_SUB 	: result_o = src1_i - src2_i;
+		ALU_ADD		: result_o = signed_src1 + signed_src2;
+		ALU_SUB 	: result_o = signed_src1 - signed_src2;
 		ALU_SLT 	: result_o = signed_src1   < signed_src2   ? 32'h0001 : 32'b0;
 		ALU_SLTU 	: result_o = unsigned_src1 < unsigned_src2 ? 32'h0001 : 32'b0;
 		ALU_BNE 	: result_o = src1_i ~^ src2_i;
@@ -72,7 +72,7 @@ always @( *)begin
 		ALU_LUI 	: result_o = src2_i[15:0] << 16 ; 
 		ALU_ORI 	: result_o = src1_i | { 16'b0,src2_i[15:0]} ;
 	default: 
-		result_o = 32'b0;// No sure 
+		result_o = 32'b0;// Not sure 
   endcase 
 end
 
