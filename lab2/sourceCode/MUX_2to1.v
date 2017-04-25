@@ -9,14 +9,14 @@
 //Description: 
 //--------------------------------------------------------------------------------
      
-module MUX_2to1_5(
+module MUX_2to1(
                data0_i,
                data1_i,
                select_i,
                data_o
                );
 
-parameter size = 5;			   
+parameter size = 0;			   
 			
 //I/O ports               
 input   [size-1:0] data0_i;          
@@ -28,9 +28,6 @@ output  [size-1:0] data_o;
 reg     [size-1:0] data_o;
 
 //Main function
-always@(*)begin
-  data_0 <= ( select_i == 1'b1? data1_i : data0_i) ;
-end
 
 endmodule      
           
