@@ -34,6 +34,11 @@
 **/pepExtractor.prj
 **/impact.xsl
 **/impact_impact.xwbt
+**/*.gise
+**/*.xise
+**/TestBench*
+**/webtalk_pn.xml
+
 
 #ignore OS noise
 

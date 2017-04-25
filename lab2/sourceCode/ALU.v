@@ -52,7 +52,7 @@ parameter ALU_ORI  = 4'd10;
 
 
 //Main function
-assign zero_o = (result_0 ==0) ? 1'b1 :1'b0 ;
+assign zero_o = (result_o ==0) ? 1'b1 :1'b0 ;
 assign signed_src1 = src1_i;
 assign signed_src2 = src2_i;
 assign unsigned_src1 = src1_i;
@@ -68,7 +68,7 @@ always @( *)begin
 		ALU_SLTU 	: result_o = unsigned_src1 < unsigned_src2 ? 32'h0001 : 32'b0;
 		ALU_BNE 	: result_o = src1_i ~^ src2_i;
 		ALU_SLL 	: result_o = src2_i << shamt; 
-		ALU_SLLV 	: result_o = src2_i << src1 ; 
+		ALU_SLLV 	: result_o = src2_i << src1_i ; 
 		ALU_LUI 	: result_o = src2_i[15:0] << 16 ; 
 		ALU_ORI 	: result_o = src1_i | { 16'b0,src2_i[15:0]} ;
 	default: 
