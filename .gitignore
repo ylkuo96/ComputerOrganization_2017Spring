@@ -38,7 +38,7 @@
 **/*.xise
 **/TestBench*
 **/webtalk_pn.xml
-
+**/*.projectmgr
 
 #ignore OS noise
 
