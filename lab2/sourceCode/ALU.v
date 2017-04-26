@@ -66,7 +66,10 @@ always @( *)begin
 		ALU_SUB 	: result_o = signed_src1 - signed_src2;
 		ALU_SLT 	: result_o = signed_src1   < signed_src2   ? 32'h0001 : 32'b0;
 		ALU_SLTU 	: result_o = unsigned_src1 < unsigned_src2 ? 32'h0001 : 32'b0;
-		ALU_BNE 	: result_o = src1_i ~^ src2_i;
+
+		//If 1 ofany 32 bit differs, (src1_i ^ src2_i) would not be zero(XOR), thus we need to branch
+		//and result_o = 0 is meant to branch 
+		ALU_BNE 	: result_o = (src1_i ^ src2_i) != 32'b0 ? 32'd0: 32'd1; 
 		ALU_SLL 	: result_o = src2_i << shamt; 
 		ALU_SLLV 	: result_o = src2_i << src1_i ; 
 		ALU_LUI 	: result_o = src2_i[15:0] << 16 ; 
