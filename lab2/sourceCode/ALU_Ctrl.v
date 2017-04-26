@@ -49,6 +49,22 @@ parameter OP_FIELD_15 = 3'b101;
 //Select exact operation
 
 always @(*)begin
+    //I-type instrucitons
+    if( ALUOp_i != OP_FIELD_0 )begin
+        case( ALUOp_i)
+            OP_FIELD_8:  ALUCtrl_o = ALU_ADD  ;
+            OP_FIELD_4:  ALUCtrl_o = ALU_SUB  ;
+            OP_FIELD_13: ALUCtrl_o = ALU_ORI  ;
+            OP_FIELD_15: ALUCtrl_o = ALU_LUI  ;
+            OP_FIELD_5:  ALUCtrl_o = ALU_BNE  ;
+            default: 
+                ALUCtrl_o = ALU_DONTCARE;
+        endcase
+    end
+
+    //R-type instrucitons 
+    //OP_field == 0
+	else begin
     case( { ALUOp_i, funct_i } )
         { OP_FIELD_0,  6'h00 }: ALUCtrl_o = ALU_SLL  ;
         { OP_FIELD_0,  6'h04 }: ALUCtrl_o = ALU_SLLV ;
@@ -58,15 +74,11 @@ always @(*)begin
         { OP_FIELD_0,  6'h25 }: ALUCtrl_o = ALU_OR   ;
         { OP_FIELD_0,  6'h2a }: ALUCtrl_o = ALU_SLT  ;
         { OP_FIELD_0,  6'h2b }: ALUCtrl_o = ALU_SLTU ;
-   
-        { OP_FIELD_4,  6'h00 }: ALUCtrl_o = ALU_SUB  ;
-        { OP_FIELD_5,  6'h00 }: ALUCtrl_o = ALU_BNE  ;
-        { OP_FIELD_8,  6'hxx }: ALUCtrl_o = ALU_ADD  ;
-        { OP_FIELD_13, 6'h00 }: ALUCtrl_o = ALU_ORI  ;
-        { OP_FIELD_15, 6'h00 }: ALUCtrl_o = ALU_LUI  ;
+
         default: 
             ALUCtrl_o = ALU_DONTCARE;
     endcase 
+	 end
 end
 
 endmodule     
