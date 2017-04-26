@@ -41,7 +41,7 @@ reg            Branch_o;
 	always@(*)begin
 	  case (instr_op_i)
 		6'd0:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b000, 4'b1010 };
-		6'd4:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b001, 4'b01x1 };//4'b_01x1
+		6'd4:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b001, 4'b00x1 };//4'b_01x1
 		6'd5:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b010, 4'b00x1 };
 		6'd8:  {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b011, 4'b1100 };
 		6'd13: {  ALU_op_o, RegWrite_o, ALUSrc_o, RegDst_o, Branch_o} = { 3'b100, 4'b1100 };
