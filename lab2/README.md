@@ -2,7 +2,7 @@
 
 ## implement a single clock-cycle CPU 
 
-[Architecture Diagram](./lab2_architecture.png)
+![Architecture Diagram](./lab2_architecture.png)
 
 
 [The Notes for implementation](https://hackmd.io/JwNgTARsEIYwtAFgMYA4BmTQJgZhAmGACaIQQAMxAjLgKYRA)
