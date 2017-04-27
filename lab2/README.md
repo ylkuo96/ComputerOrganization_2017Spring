@@ -2,6 +2,9 @@
 
 ## implement a single clock-cycle CPU 
 
+[Architecture Diagram](./lab2_architecture.png)
+
+
 [The Notes for implementation](https://hackmd.io/JwNgTARsEIYwtAFgMYA4BmTQJgZhAmGACaIQQAMxAjLgKYRA)
 
 + these instructions are MIPS-like
