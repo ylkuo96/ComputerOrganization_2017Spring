@@ -39,6 +39,12 @@
 **/TestBench*
 **/webtalk_pn.xml
 **/*.projectmgr
+**/*.xrpt
+**/*.ngc
+**/*.ngr
+**/*.prj
+**/*.syr
+**/*.xst
 
 #ignore OS noise
 
