@@ -1,13 +1,8 @@
 //Subject:     CO project 2 - ALU Controller
-//--------------------------------------------------------------------------------
-//Version:     1
-//--------------------------------------------------------------------------------
-//Writer:      
-//----------------------------------------------
-//Date:        
-//----------------------------------------------
-//Description: 
-//--------------------------------------------------------------------------------
+//--------------------------------------------
+//Student: 0411276 Chen Yi An
+//Student: 0413335 Kuo Yi Lin
+//--------------------------------------------
 
 module ALU_Ctrl(
           funct_i,
@@ -52,11 +47,11 @@ always @(*)begin
     //I-type instrucitons
     if( ALUOp_i != OP_FIELD_0 )begin
         case( ALUOp_i)
-            OP_FIELD_8:  ALUCtrl_o = ALU_ADD  ;
             OP_FIELD_4:  ALUCtrl_o = ALU_SUB  ;
+            OP_FIELD_5:  ALUCtrl_o = ALU_BNE  ;
+            OP_FIELD_8:  ALUCtrl_o = ALU_ADD  ;
             OP_FIELD_13: ALUCtrl_o = ALU_ORI  ;
             OP_FIELD_15: ALUCtrl_o = ALU_LUI  ;
-            OP_FIELD_5:  ALUCtrl_o = ALU_BNE  ;
             default: 
                 ALUCtrl_o = ALU_DONTCARE;
         endcase
