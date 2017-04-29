@@ -4,6 +4,8 @@
 
 ![Architecture Diagram](./lab2_architecture.png)
 
+**link to the detailed explaination about this lab**
+[implement_Elaboration](./implement_Elaboration.md)
 
 [The Notes for implementation](https://hackmd.io/JwNgTARsEIYwtAFgMYA4BmTQJgZhAmGACaIQQAMxAjLgKYRA)
 
