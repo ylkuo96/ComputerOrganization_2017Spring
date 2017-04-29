@@ -10,23 +10,21 @@
 + these instructions are MIPS-like
 
 
-## implement some 
+## implemented instruction 
 + R-type instrucitons
     * add
     * sub
     * and
     * or
     * slt  ( Set on Less Than )
-    * sltu ( Set on Less Than Unsigned )
-    * beq ( Branch on Equal)
+    * sltu ( slt Unsigned )
 
 + I-tpye instructions 
     * addi ( Add Immeidate )
+    * beq  (Branch on Equal)
+    * bne  (Branch on not Equal)
+    * ori  (Or Immeidate )
+    * lui  (Load upper Immeidate )
     ---
 
-# Advanced intructions
- * sll
- * sllv
- * lui
- * ori
- * bne
+
