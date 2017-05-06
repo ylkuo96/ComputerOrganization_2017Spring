@@ -1,4 +1,4 @@
-//Subject:     CO project 2 - ALU Controller
+//Subject:     CO project 3 - ALU Controller
 //--------------------------------------------
 //Student: 0411276 Chen Yi An
 //Student: 0413335 Kuo Yi Lin
@@ -35,6 +35,12 @@ wire            alu_zero,       //Indicate the value of alu is zero or not (for 
 wire [3:0]      aluOpCode;      //The operation code that ALU get from ALU_Control  
 wire [4:0]      writeReg_addr;  //The address of the reg that need to be write back, if any.
     
+//New control lines --------
+//MemToReg_o
+//BranchType_o
+//MemRead_o
+//MemWrite_o
+//--------------------------     
 
 //Indicate the meaning of the sub-sections in the instruction field     
 wire    [4:0] instr_rs,  instr_rt,  instr_rd, instr_shamt;

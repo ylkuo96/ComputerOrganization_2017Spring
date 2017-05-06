@@ -1,4 +1,4 @@
-//Subject:     CO project 2 - ALU Controller
+//Subject:     CO project 3 - ALU Controller
 //--------------------------------------------
 //Student: 0411276 Chen Yi An
 //Student: 0413335 Kuo Yi Lin
@@ -40,6 +40,17 @@ parameter OP_FIELD_5  = 3'b010;
 parameter OP_FIELD_8  = 3'b011; 
 parameter OP_FIELD_13 = 3'b100; 
 parameter OP_FIELD_15 = 3'b101; 
+//New OP foeld ------
+//35 LW
+//43:SW
+//2 : Jump
+//3 :Jal
+//7 : BLE
+//6 : 
+//5
+//15 :有問題，LI會跟LUI衝到
+//-------------------
+
 
 //Select exact operation
 

@@ -4,6 +4,7 @@
 
 *this cpuis able to run R-type, I-type, and J type instructions*
 
+[Notes for implementation](https://hackmd.io/CYDgRgrApgnATAdgLQAYEDYDMSAscZhICGURhUEcYYwY6RAjAGYhA===)
 
 * Reg_File[29] represents stack point initialized to 128, others are 0.
 
