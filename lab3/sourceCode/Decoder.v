@@ -61,20 +61,20 @@ parameter DONTCARE4 = 4'bxxxx;
 	  case (instr_op_i)
 	  	6'd0:begin 
 				if( instr_funct_i == 6'h08)begin //Jump Regsiter --Representative instruction of this datapath 
-					ALU_op_o 					<= DONTCARE4;
-					ALUSrc_o 					<= DONTCARE1;
-					{ RegWrite_o, RegDst_o }	<= REG_NO_WRITE;
-					MemToReg_o 					<= DONTCARE2;
-					{ MemRead_o, MemWrite_o } 	<= MEM_NO_ACCESS;
-					{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_JR};
+					ALU_op_o                  <= DONTCARE4;
+					ALUSrc_o                  <= DONTCARE1;
+					{ RegWrite_o, RegDst_o }  <= REG_NO_WRITE;
+					MemToReg_o                <= DONTCARE2;
+					{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
+					{ Branch_o, BranchType_o, Jump_o } <= { 1'b0, DONTCARE2, JUMP_JR};
 				end
 				else begin //Add	
-					ALU_op_o 					<= 4'd0;
-					ALUSrc_o 					<= ALU_SRC_REG;
-					{ RegWrite_o, RegDst_o }	<= REG_WRITE_SRC_RD;
-					MemToReg_o 					<= MToR_ALU ;
+					ALU_op_o                  <= 4'd0;
+					ALUSrc_o                  <= ALU_SRC_REG;
+					{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RD;
+					MemToReg_o                <= MToR_ALU ;
 					{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-					{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+					{ Branch_o, BranchType_o, Jump_o } <= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 
 		6'd2:begin // Jump
