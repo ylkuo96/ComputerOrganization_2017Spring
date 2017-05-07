@@ -1,4 +1,4 @@
-//Subject:     CO project 23- ALU Controller
+//Subject:     CO project 3
 //--------------------------------------------
 //Student: 0411276 Chen Yi An
 //Student: 0413335 Kuo Yi Lin
