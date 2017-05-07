@@ -7,16 +7,16 @@
 module Decoder(
 input	[6-1:0]instr_op_i,
 input [6-1:0]instr_funct_i, //The decoder need to know the funct to implement jr 
-output	wire 					RegWrite_o,
-				wire [4-1:0]	ALU_op_o,
-				wire					ALUSrc_o,
-				wire					RegDst_o,
-				wire					Branch_o,
-				wire [2-1:0]	Jump_o,
-				wire [2-1:0]	MemToReg_o,
-				wire [2-1:0]	BranchType_o,
-				wire					MemRead_o,
-				wire					MemWrite_o,
+output	reg 				RegWrite_o,
+				reg [4-1:0]	ALU_op_o,
+				reg					ALUSrc_o,
+				reg					RegDst_o,
+				reg					Branch_o,
+				reg [2-1:0]	Jump_o,
+				reg [2-1:0]	MemToReg_o,
+				reg [2-1:0]	BranchType_o,
+				reg					MemRead_o,
+				reg					MemWrite_o
 	);
 	
 //Internal signals
@@ -40,9 +40,9 @@ parameter MEM_WRITE		= 2'b01;
 //Where the dataflow came from to Register file's write data
 //Have to be determined if writing back is needed 
 //MToR: MemtoReg_o 
-parameter MToR_ALU 		= 2'b0;
-parameter MToR_MEM 		= 2'b1;
-parameter MToR_IMMDT 	= 2'b2;  
+parameter MToR_ALU 		= 2'd0;
+parameter MToR_MEM 		= 2'd1;
+parameter MToR_IMMDT 	= 2'd2;  
 
 
 parameter ALU_SRC_REG 	= 1'b0;
@@ -75,7 +75,8 @@ parameter DONTCARE4 = 4'bxxxx;
 					MemToReg_o                <= MToR_ALU ;
 					{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 					{ Branch_o, BranchType_o, Jump_o } <= { 1'b0, DONTCARE2, JUMP_NO};
-		  end
+		    end
+			end
 
 		6'd2:begin // Jump
 			ALU_op_o                  <= DONTCARE4 ;
@@ -179,7 +180,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 		default: 
-			{ALU_Reg_type, Mem_Branch_type} = 15'bx ; 
+			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o, BranchType_o, Jump_o} = 15'bx ; 
 			
 	  endcase
 	end

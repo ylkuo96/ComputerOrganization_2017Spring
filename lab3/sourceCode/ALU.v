@@ -11,7 +11,7 @@ input  		[32-1:0]  src1_i,
 			[5-1:0]   shamt,
 			[32-1:0]  pc_add4,
 output  reg	[32-1:0]  result_o,
-		              zero_o
+		wire          zero_o
 //ALU必須要得到PC+4的值,並且在 JAL指令的時候直接輸出PC+4
 	);
      

@@ -35,11 +35,11 @@ wire [32-1:0]   regWB_data,     //The data writed back to RegisterFile, if any.
                 jump_addr,              //The jump address, if any                
                 pc_next,        pc_data,        pc_add4, 
                 immdt16_SE32,   //32bit Signed Extened value derived from the 16bit immediate one    
-                shiftout;
+                shiftout,
                 Mux_Branch_or_PCAdd4_out; 
         
 wire            alu_zero,       //Indicate the value of alu is zero or not (for branch usage )
-                alu_mux_branch; //The output of "Mux_ALU_Branch_type",This signal represents the alu's evaluation outcome 
+                alu_mux_branch, //The output of "Mux_ALU_Branch_type",This signal represents the alu's evaluation outcome 
                                         //that to branch or not.
 
                 pcBranch_sel;   //Selecting value for Mux_PC_Source 
@@ -149,10 +149,8 @@ MUX_4to1 #(.size(1)) Mux_ALU_Branch_type(
         .data3_i( !alu_zero),
         .select_i(BranchType_ctrl),
         .data_o(alu_mux_branch)
-)
+);
 
-
-//Havent dont 
 Data_Memory Data_Memory(
 	.clk_i(clk_i),
 	.addr_i(aluResult),
@@ -197,7 +195,7 @@ MUX_4to1 #(.size(32)) Mux_PC_Source(
         .data3_i(32'b0),
         .select_i(Jump_ctrl),
         .data_o(pc_next)
-)
+);
 
 endmodule
 		  

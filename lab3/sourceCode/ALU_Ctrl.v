@@ -91,7 +91,7 @@ always @(*)begin
     case( { ALUOp_i, funct_i } )
         { OP_FIELD_0,  6'h00 }: ALUCtrl_o = ALU_SLL  ;
         { OP_FIELD_0,  6'h04 }: ALUCtrl_o = ALU_SLLV ;
-        { OP_FIELD_0,  6'h18 }  ALUCtrl_o = ALU_MULT ;
+        { OP_FIELD_0,  6'h18 }: ALUCtrl_o = ALU_MULT ;
         { OP_FIELD_0,  6'h20 }: ALUCtrl_o = ALU_ADD  ;
         { OP_FIELD_0,  6'h22 }: ALUCtrl_o = ALU_SUB  ;
         { OP_FIELD_0,  6'h24 }: ALUCtrl_o = ALU_AND  ;
