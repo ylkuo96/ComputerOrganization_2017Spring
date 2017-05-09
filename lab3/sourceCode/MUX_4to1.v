@@ -33,6 +33,8 @@ always @(*)begin
         2'b01:data_o <=data1_i;
         2'b10:data_o <=data2_i;
         2'b11:data_o <=data3_i;
+        default: 
+            data_o <= data0_i;
     endcase
 end
 endmodule      

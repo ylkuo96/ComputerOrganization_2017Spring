@@ -6,12 +6,12 @@
 
 module ALU(
 input  		[32-1:0]  src1_i,
-			[32-1:0]  src2_i,
-			[4-1:0]   ctrl_i,
-			[5-1:0]   shamt,
-			[32-1:0]  pc_add4,
+input		[32-1:0]  src2_i,
+input		[4-1:0]   ctrl_i,
+input		[5-1:0]   shamt,
+input		[32-1:0]  pc_add4,
 output  reg	[32-1:0]  result_o,
-		wire          zero_o
+output	wire          zero_o
 //ALU必須要得到PC+4的值,並且在 JAL指令的時候直接輸出PC+4
 	);
      

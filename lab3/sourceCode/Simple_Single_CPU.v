@@ -5,7 +5,7 @@
 //--------------------------------------------
 module Simple_Single_CPU(
                 clk_i,
-		rst_i,
+		rst_i
 
 		);
 		
@@ -73,7 +73,7 @@ Adder Adder1(
         );
 
 Instr_Memory IM(
-        .pc_addr_i(pc_data),  
+        .addr_i(pc_data),  
         .instr_o(instruction_data)    
         );
 
@@ -109,7 +109,7 @@ Decoder Decoder(
         .Branch_o(Branch_ctrl),
         .Jump_o( Jump_ctrl),
         .MemToReg_o(MemToReg_ctrl),
-        .BranchType_o(Branch_ctrl),
+        .BranchType_o(BranchType_ctrl),
         .MemRead_o(MemRead_ctrl),
         .MemWrite_o(MemWrite_ctrl)   
         );

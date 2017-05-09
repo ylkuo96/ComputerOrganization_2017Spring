@@ -6,17 +6,17 @@
 
 module Decoder(
 input	[6-1:0]instr_op_i,
-input [6-1:0]instr_funct_i, //The decoder need to know the funct to implement jr 
+input [6-1:0]instr_funct_i, 
 output	reg 				RegWrite_o,
-				reg [4-1:0]	ALU_op_o,
-				reg					ALUSrc_o,
-				reg					RegDst_o,
-				reg					Branch_o,
-				reg [2-1:0]	Jump_o,
-				reg [2-1:0]	MemToReg_o,
-				reg [2-1:0]	BranchType_o,
-				reg					MemRead_o,
-				reg					MemWrite_o
+output	reg [4-1:0]	ALU_op_o,
+output	reg					ALUSrc_o,
+output	reg					RegDst_o,
+output	reg					Branch_o,
+output	reg [2-1:0]	Jump_o,
+output	reg [2-1:0]	MemToReg_o,
+output	reg [2-1:0]	BranchType_o,
+output	reg					MemRead_o,
+output	reg					MemWrite_o
 	);
 	
 //Internal signals
@@ -92,7 +92,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			ALU_op_o                  <= 4'd1;
 			ALUSrc_o                  <= DONTCARE1 ;
 			{ RegWrite_o, RegDst_o }  <= 2'b1x; //Special Case
-			MemToReg_o                <= MToR_ALU; //ALU會直接輸出PC+4
+			MemToReg_o                <= MToR_ALU; //ALU�直�輸�PC+4
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_YES};
 		  end
@@ -180,7 +180,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 		default: 
-			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o, BranchType_o, Jump_o} = 15'bx ; 
+			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o, BranchType_o, Jump_o} <= 15'bx ; 
 			
 	  endcase
 	end
