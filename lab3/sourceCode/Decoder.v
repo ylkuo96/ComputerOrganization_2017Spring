@@ -10,7 +10,7 @@ input [6-1:0]instr_funct_i,
 output	reg 				RegWrite_o,
 output	reg [4-1:0]	ALU_op_o,
 output	reg					ALUSrc_o,
-output	reg					RegDst_o,
+output	reg	[2-1:0]	RegDst_o,
 output	reg					Branch_o,
 output	reg [2-1:0]	Jump_o,
 output	reg [2-1:0]	MemToReg_o,
@@ -28,9 +28,10 @@ parameter bType_BLE 	= 2'd1;
 parameter bType_BEQ 	= 2'd0;
 
 //{RegWrite_o, RegDst_o }
-parameter REG_NO_WRITE 		= 2'b0x;
-parameter REG_WRITE_SRC_RT 	= 2'b10;
-parameter REG_WRITE_SRC_RD 	= 2'b11;
+parameter REG_NO_WRITE 		= 3'b0_xx;
+parameter REG_WRITE_SRC_RT 	= 3'b1_00;
+parameter REG_WRITE_SRC_RD 	= 3'b1_01;
+parameter REG_JAL           = 3'b1_10;//designed for Jal instruciton 
 
 //{ MemRead_o, MemWrite_o }
 parameter MEM_NO_ACCESS = 2'b00;
@@ -91,7 +92,7 @@ parameter DONTCARE4 = 4'bxxxx;
 		6'd3:begin // JAL: Jump And Link
 			ALU_op_o                  <= 4'd1;
 			ALUSrc_o                  <= DONTCARE1 ;
-			{ RegWrite_o, RegDst_o }  <= 2'b1x; //Special Case
+			{ RegWrite_o, RegDst_o }  <= REG_JAL; //Special Case
 			MemToReg_o                <= MToR_ALU; //ALU�直�輸�PC+4
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_YES};
