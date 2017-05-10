@@ -38,8 +38,11 @@ parameter MEM_NO_ACCESS = 2'b00;
 parameter MEM_READ 		= 2'b10;
 parameter MEM_WRITE		= 2'b01;
 
-//Where the dataflow came from to Register file's write data
-//Have to be determined if writing back is needed 
+/*-----------------------------------------------------------------------------
+Specify the mux selection value which determined 
+		whether the dataflow to Register file came from. 
+This selective value is a must-be if writing back to RegisterFile is needed 
+------------------------------------------------------------------------------*/
 //MToR: MemtoReg_o 
 parameter MToR_ALU 		= 2'd0;
 parameter MToR_MEM 		= 2'd1;
@@ -93,7 +96,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			ALU_op_o                  <= 4'd1;
 			ALUSrc_o                  <= DONTCARE1 ;
 			{ RegWrite_o, RegDst_o }  <= REG_JAL; //Special Case
-			MemToReg_o                <= MToR_ALU; //ALU�直�輸�PC+4
+			MemToReg_o                <= MToR_ALU; //The ALU would directly ouptut PC+4 
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_YES};
 		  end
@@ -152,18 +155,19 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 
-		6'd15:begin //LI: Load immediate, make the register directly to the immdt value, no memory needed 
+		6'd15:begin //LI: Load immediate, make the register RD directly to the immdt value, no memory needed 
 			ALU_op_o                  <= DONTCARE4; //ALU must directly ouput the immdt value( immdt address) 
 			ALUSrc_o                  <= DONTCARE2;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
-			MemToReg_o                <= MToR_IMMDT;
+			MemToReg_o                <= MToR_IMMDT; //This directly send the Sign Extended immdt value 
+																							  // Back to Register File
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS ;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 
 		6'd35:begin //LW: Load Word
 					//I-type instruction 
-			ALU_op_o                  <= 4'd8; //ALU must directly ouput the immdt value( immdt address) 
+			ALU_op_o                  <= 4'd8; 
 			ALUSrc_o                  <= ALU_SRC_IMMDT;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
 			MemToReg_o                <= MToR_MEM;

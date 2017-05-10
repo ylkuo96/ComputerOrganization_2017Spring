@@ -9,10 +9,9 @@ input  		[32-1:0]  src1_i,
 input		[32-1:0]  src2_i,
 input		[4-1:0]   ctrl_i,
 input		[5-1:0]   shamt,
-input		[32-1:0]  pc_add4,
+input		[32-1:0]  pc_add4,//This port is inserted for "jal" instruciton
 output  reg	[32-1:0]  result_o,
 output	wire          zero_o
-//ALU必須要得到PC+4的值,並且在 JAL指令的時候直接輸出PC+4
 	);
      
 
@@ -37,7 +36,6 @@ parameter ALU_LUI  = 4'd9;
 parameter ALU_ORI  = 4'd10;
 parameter ALU_MULT     = 4'd11;
 parameter ALU_PC_ADD4  = 4'd12;
-parameter ALU_IMMDT    = 4'd13;
 
 
 //Main function
@@ -56,19 +54,15 @@ always @( *)begin
 		ALU_SUB 	: result_o = signed_src1 - signed_src2;
 		ALU_SLT 	: result_o = signed_src1   < signed_src2   ? 32'h0001 : 32'b0;
 		ALU_SLTU 	: result_o = unsigned_src1 < unsigned_src2 ? 32'h0001 : 32'b0;
-
-		//If 1 ofany 32 bit differs, (src1_i ^ src2_i) would not be zero(XOR), thus we need to branch
-		//and result_o = 0 is meant to branch 
-		ALU_BNEZ 	: result_o = src1_i ; //src1_i - 0;
+		ALU_BNEZ 	: result_o = src1_i ; //equal to src1_i - 0;
 		ALU_SLL 	: result_o = src2_i << shamt; 
 		ALU_SLLV 	: result_o = src2_i << src1_i ; 
 		ALU_LUI 	: result_o = src2_i[15:0] << 16 ; 
 		ALU_ORI 	: result_o = src1_i | { 16'b0,src2_i[15:0]} ;
 		ALU_MULT	: result_o = src1_i * src2_i ;
 		ALU_PC_ADD4 : result_o = pc_add4;
-		ALU_IMMDT	: result_o = src2_i;  //ALU directly ouput the sceond operand, the immdt value 
 	default: 
-		result_o = 32'b0;// Not sure 
+		result_o = 32'bx;//Dont care, since the control is not specified  
   endcase 
 end
 

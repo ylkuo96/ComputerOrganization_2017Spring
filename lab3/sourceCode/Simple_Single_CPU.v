@@ -77,11 +77,12 @@ Instr_Memory IM(
         .instr_o(instruction_data)    
         );
 
+//Use this as a  3-1 Mux 
 MUX_4to1 #(.size(5)) Mux_Write_Reg(
         .data0_i(instr_rt),
         .data1_i(instr_rd),
         .data2_i(5'd31),//the register to store return address
-        .data3_i(5'd0),
+        .data3_i(5'd0),//Not used 
         .select_i(RegDst_ctrl),//need to change to 2 bit to implemet jal
         .data_o(writeReg_addr)
         );	
@@ -162,6 +163,7 @@ Data_Memory Data_Memory(
 	.data_o(MemRead_data)        
 );
 
+//Use this as a  3-1 Mux 
 MUX_4to1 #(.size(32)) Mux_WriteBack(
         .data0_i(aluResult),
         .data1_i(MemRead_data),
@@ -189,11 +191,12 @@ MUX_2to1 #(.size(32)) Mux_Branch_or_PCAdd4(
         .select_i(pcBranch_sel),
         .data_o(Mux_Branch_or_PCAdd4_out)
         );	
-        
+
+//Use this as a  3-1 Mux 
 MUX_4to1 #(.size(32)) Mux_PC_Source(
         .data0_i(Mux_Branch_or_PCAdd4_out),//NO jump. Only Branch or PCadd4 
         .data1_i(jump_addr),
-        .data2_i(aluSrc1),//jumpreg
+        .data2_i(aluSrc1),//jump addr comes from reg
         .data3_i(32'b0),
         .select_i(Jump_ctrl),
         .data_o(pc_next)
