@@ -2,6 +2,8 @@
 
 ## single clock-cycle CPU with memory_componenet
 
+![Architecture Diagram](./lab3_architecture_daigram.png)
+
 *this cpuis able to run R-type, I-type, and J type instructions*
 
 
