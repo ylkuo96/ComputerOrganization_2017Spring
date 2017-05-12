@@ -4,6 +4,9 @@
 
 ![Architecture Diagram](./lab3_architecture.png)
 
+*The detailed explanaiton of the implementation is [Here](./implementation_elaboration.md)*
+
+
 *this cpuis able to run R-type, I-type, and J type instructions*
 
 
