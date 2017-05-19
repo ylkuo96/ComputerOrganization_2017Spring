@@ -45,6 +45,7 @@ instruction format
 
 ## I-type
 **No funct field exists** 
+
 |Instruciton|Example | Meaning | OP field| Rs | Rt| immdt(in example) |
 |:-:|:-:|:-:|:-:|:-:| :-:|:-:|
 |ADDI|addi r1,r2,100 |r1=r2+100| 8 |r2|r1|100|
@@ -52,7 +53,8 @@ instruction format
 |BNE|bne r1,r2,30 |if( r1!=r2) goto **(PC+4)**+120| 5 |r2|r1|30|
 |BEQ|bne r1,r2,25 |if( r1==r2) goto **(PC+4)**+100| 4 |r2|r1|25|
 |LUI|lui r1,10 | r1 = 10<<16| 15 |x|r1|10|
-|LW|lw r1,r2,12 | r1=MEM[r2+12]| 35 |r1|r2|12||SW|ww r1,r2,12 | MEM[r2+12]=r1| 43 |r1|r2|12|
+|LW|lw r1,r2,12| r1=MEM[r2+12]| 35 |r1|r2|12|
+|SW|sw r1,r2,12| MEM[r2+12]=r1| 43 |r1|r2|12|
 
 
  
