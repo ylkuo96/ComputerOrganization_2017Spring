@@ -37,7 +37,7 @@ parameter ALU_DONTCARE = 4'bxxxx;
 
 
 /*------------------------------------------------------------------
-    The OP_Fields not listed here is would make ALU_control simply
+    The OP_Fields not listed here would make ALU_control simply
      send an 4bit dontcare control value to the alu,
      since These type of instrucitons don't rely on the use of alu.  
 --------------------------------------------------------------------*/ 
