@@ -32,15 +32,15 @@ instruction format
 
 |Instruciton | Example | Meaning | OP field | Function field |
 |:-:        |:-:   |:-:| :-:|:-:|
-|AND| and r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub>&r<sub>3</sub>| 0 | 36(0x24) | 
-|OR| or r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub>\|r<sub>3</sub>| 0 | 37(0x25) | 
-|ADD| add r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub>+r<sub>3</sub>| 0 | 32(0x20) | 
-|SUB| sub r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub>-r<sub>3</sub>| 0 | 34(0x22) |
-|MUL| mul r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub>*r<sub>3</sub>| 0 | 24(0x18) |
-|SLT| slt r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = (r<sub>2</sub><r<sub>3</sub>) ? 1:0 | 0 | 42(0x2a) |
-|SLTU| sltu r<sub>1</sub>,r<sub>2</sub>, r<sub>3</sub>(unsigned)| r<sub>1</sub> = (r<sub>2</sub><r<sub>3</sub>) ? 1:0 | 0 | 43(0x2b) |
-|SLL| sll r<sub>1</sub>,r<sub>2</sub>,10| r<sub>1</sub> = r<sub>2</sub><<10 | 0 | 0 |
-|SLLV| sllv r<sub>1</sub>,r<sub>2</sub>,r<sub>3</sub>| r<sub>1</sub> = r<sub>2</sub><<r<sub>3</sub> | 0 | 4 |
+|AND| and r1,r2,r3| r1 = r2&r3| 0 | 36(0x24) | 
+|OR| or r1,r2,r3| r1 = r2\|r3| 0 | 37(0x25) | 
+|ADD| add r1,r2,r3| r1 = r2+r3| 0 | 32(0x20) | 
+|SUB| sub r1,r2,r3| r1 = r2-r3| 0 | 34(0x22) |
+|MUL| mul r1,r2,r3| r1 = r2*r3| 0 | 24(0x18) |
+|SLT| slt r1,r2,r3| r1 = (r2<r3) ? 1:0 | 0 | 42(0x2a) |
+|SLTU| sltu r1,r2, r3(unsigned)| r1 = (r2<r3) ? 1:0 | 0 | 43(0x2b) |
+|SLL| sll r1,r2,10| r1 = r2<<10 | 0 | 0 |
+|SLLV| sllv r1,r2,r3| r1 = r2<<r3 | 0 | 4 |
 
 
 ## I-type
