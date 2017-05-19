@@ -1,6 +1,6 @@
 # Lab4 Pipelined CPU
 
-implementing a simple version 5-stage pipelined CPU
+ implementing a simple version 5-stage pipelined CPU
 
 ## basic instructions supported
 
