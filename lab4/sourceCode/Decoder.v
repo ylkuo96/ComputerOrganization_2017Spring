@@ -14,7 +14,7 @@ output	reg	[2-1:0]	RegDst_o,
 output	reg					Branch_o,
 output	reg [2-1:0]	Jump_o,
 output	reg [2-1:0]	MemToReg_o,
-output	reg [2-1:0]	BranchType_o,
+//output	reg [2-1:0]	BranchType_o,
 output	reg					MemRead_o,
 output	reg					MemWrite_o
 	);
@@ -22,10 +22,12 @@ output	reg					MemWrite_o
 //Internal signals
 
 //indiacate the Branch_Type
+/* Not used in this lab
 parameter bType_BNEZ 	= 2'd3;
 parameter bType_BLT 	= 2'd2;
 parameter bType_BLE 	= 2'd1;
 parameter bType_BEQ 	= 2'd0;
+*/
 
 //{RegWrite_o, RegDst_o }
 parameter REG_NO_WRITE 		= 3'b0_xx;
@@ -81,7 +83,7 @@ parameter DONTCARE4 = 4'bxxxx;
 					{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RD;
 					MemToReg_o                <= MToR_ALU ;
 					{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-					{ Branch_o, BranchType_o, Jump_o } <= { 1'b0, DONTCARE2, JUMP_NO};
+					Branch_o <= 1'b0;
 		    end
 			end
 
@@ -113,7 +115,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_NO_WRITE;
 			MemToReg_o                <= DONTCARE2;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b1, bType_BEQ, JUMP_NO};
+			Branch_o <= 1'b1;
 		  end
 
 		6'd5:begin	//BNEZ
@@ -122,7 +124,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_NO_WRITE;
 			MemToReg_o                <= DONTCARE2;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b1, bType_BNEZ, JUMP_NO};
+			Branch_o <= 1'b1;
 		  end
 
 			/*
@@ -153,7 +155,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
 			MemToReg_o                <= MToR_ALU ;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+			Branch_o <= 1'b0;
 		  end
 
 		6'd13:begin //ORI
@@ -162,7 +164,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
 			MemToReg_o                <= MToR_ALU ;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+			Branch_o <= 1'b0;
 		  end
 
 			//改成 LUI
@@ -173,7 +175,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			MemToReg_o                <= MToR_IMMDT; //This directly send the Sign Extended immdt value 
 																							  // Back to Register File
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS ;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+			Branch_o <= 1'b0;
 		  end
 
 		6'd35:begin //LW: Load Word
@@ -183,7 +185,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
 			MemToReg_o                <= MToR_MEM;
 			{ MemRead_o, MemWrite_o } <= MEM_READ;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+			Branch_o <= 1'b0;
 		  end
 
 		6'd43:begin //SW: Store Word 
@@ -193,10 +195,10 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ RegWrite_o, RegDst_o }  <= REG_NO_WRITE;
 			MemToReg_o                <= DONTCARE2;
 			{ MemRead_o, MemWrite_o } <= MEM_WRITE;
-			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
+			Branch_o <= 1'b0;
 		  end
 		default: 
-			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o, BranchType_o, Jump_o} <= 15'bx ; 
+			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o} <= bx ; 
 			
 	  endcase
 	end
