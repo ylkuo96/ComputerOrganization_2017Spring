@@ -1,4 +1,4 @@
-//Subject:     CO project 3 
+//Subject:     CO project 4
 //--------------------------------------------
 //Student: 0411276 Chen Yi An
 //Student: 0413335 Kuo Yi Lin
@@ -63,6 +63,7 @@ parameter DONTCARE4 = 4'bxxxx;
 //Main function
 	always@(*)begin
 	  case (instr_op_i)
+		/*
 	  	6'd0:begin 
 				if( instr_funct_i == 6'h08)begin //Jump Regsiter --Representative instruction of this datapath 
 					ALU_op_o                  <= DONTCARE4;
@@ -72,7 +73,9 @@ parameter DONTCARE4 = 4'bxxxx;
 					{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 					{ Branch_o, BranchType_o, Jump_o } <= { 1'b0, DONTCARE2, JUMP_JR};
 				end
-				else begin //Add	
+				else
+		*/
+			begin //Add	
 					ALU_op_o                  <= 4'd0;
 					ALUSrc_o                  <= ALU_SRC_REG;
 					{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RD;
@@ -82,6 +85,7 @@ parameter DONTCARE4 = 4'bxxxx;
 		    end
 			end
 
+			/*
 		6'd2:begin // Jump
 			ALU_op_o                  <= DONTCARE4 ;
 			ALUSrc_o                  <= DONTCARE1 ;
@@ -90,8 +94,9 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_YES};
 		  end
+			*/
 
-
+			/*
 		6'd3:begin // JAL: Jump And Link
 			ALU_op_o                  <= 4'd1;
 			ALUSrc_o                  <= DONTCARE1 ;
@@ -100,6 +105,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_YES};
 		  end
+			*/
 
 		6'd4:begin //BEQ
 			ALU_op_o                  <= 4'd2;
@@ -119,6 +125,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b1, bType_BNEZ, JUMP_NO};
 		  end
 
+			/*
 		6'd6:begin //BLT : Branch Less Than
 			ALU_op_o                  <= 4'd4;
 			ALUSrc_o                  <= ALU_SRC_REG ;
@@ -127,7 +134,8 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b1, bType_BLT, JUMP_NO};
 		  end
-
+			*/
+			/*
 		6'd7:begin //BLE : Branch Less Equal
 			ALU_op_o                  <= 4'd5;
 			ALUSrc_o                  <= ALU_SRC_REG ;
@@ -136,6 +144,8 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ MemRead_o, MemWrite_o } <= MEM_NO_ACCESS;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b1, bType_BLE, JUMP_NO};
 		  end
+			*/
+
 
 		6'd8:begin //ADDI
 			ALU_op_o                  <= 4'd6;
@@ -155,6 +165,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			{ Branch_o, BranchType_o, Jump_o } 	<= { 1'b0, DONTCARE2, JUMP_NO};
 		  end
 
+			//改成 LUI
 		6'd15:begin //LI: Load immediate, make the register RD directly to the immdt value, no memory needed 
 			ALU_op_o                  <= DONTCARE4; //ALU must directly ouput the immdt value( immdt address) 
 			ALUSrc_o                  <= DONTCARE2;
