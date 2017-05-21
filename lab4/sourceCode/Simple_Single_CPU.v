@@ -66,8 +66,8 @@ wire RW_EX_muxOut,MR_EX_muxOut,MW_EX_muxOut;
 
 wire [32-1:0]   regWB_data,     //The data writed back to RegisterFile, if any. 
                 MemRead_data,
-                aluResult,
-                //aluSrc1,        aluSrc2_reg,   aluSrc2, //input for alu. 
+                aluResult_EX, aluResult_MEM,
+                aluSrc1,        aluSrc2, //input for alu. 
                 branch_addr,            //Mux_PC_Source's input
                 jump_addr,              //The jump address, if any                
                 pc_next,        pc_data,        
@@ -88,13 +88,13 @@ wire [`i32] immdt16_SE32_ID, immdt16_SE32_EX;
 wire [`i32] instr_ID;//values from instruction memory according to it's address
 
 
-wire            alu_zero,       //Indicate the value of alu is zero or not (for branch usage )
+wire            alu_zero_EX,alu_zero_MEM,       //Indicate the value of alu is zero or not (for branch usage )
                 alu_mux_branch, //The output of "Mux_ALU_Branch_type",This signal represents the alu's evaluation outcome 
                                         //that to branch or not.
 
                 pcBranch_sel;   //Selecting value for Mux_PC_Source 
 
-wire [4-1:0]      aluOpCode;      //The operation code that ALU get from ALU_Control  
+wire [4-1:0]      aluOpCode_ID, aluOpCode_EX;      //The operation code that ALU get from ALU_Control  
 wire [5-1:0]      writeReg_addr;  //The address of the reg that need to be write back, if any.
 
 
@@ -129,7 +129,7 @@ MUX_4to1 #(.size(32)) Mux_PC_Source(
 ProgramCounter PC(
         .clk_i(clk_i),      
         .rst_i (rst_i),     
-        .pc_in_i(pc_next) ,   
+        .pc_in_i(pc_next),
         .pc_out_o(pc_data) 
         );
 
@@ -217,12 +217,19 @@ MUX_2to1 #(.size(3)) ID_EX_pipeLineSrc(
     })
 );
 
+ALU_Ctrl AC(
+        .funct_i(instr_funct),   
+        .ALUOp_i(AluOp_c_ID),   
+        .ALUCtrl_o(aluOpCode_ID) 
+        );
+        
+//長度還沒定，hazard unit還沒寫所以write還沒接
 PipeLineReg #() ID_EX(
     .clk(clk_i),
     .write_data(),
     .in({   
         pc_add4_ID,
-
+        aluOpCode_ID,
         //control signals
         AluSrc_c_ID, 
         AluOp_c_ID,
@@ -245,6 +252,7 @@ PipeLineReg #() ID_EX(
     }),
     .out({
         pc_add4_EX,
+        aluOpCode_EX,
         /*一堆decoder控制訊號*/
         AluSrc_c_EX,
         AluOp_c_EX,
@@ -261,7 +269,7 @@ PipeLineReg #() ID_EX(
         immdt16_SE32_EX,
         instr_rs_EX,
         instr_rt_EX,
-        instr_rd_ID,
+        instr_rd_EX,
         instr_shamt_EX
     })
 );
@@ -277,31 +285,28 @@ Adder Branch_adder(
         .sum_o(branch_addr)      
         );
 
-ALU_Ctrl AC(
-        .funct_i(instr_funct),   
-        .ALUOp_i(AluOp_c_ID),   
-        .ALUCtrl_o(aluOpCode) 
-        );
-        
 
 
+/* 重寫一堆完全不一樣的mux
 MUX_2to1 #(.size(32)) Mux_ALUSrc(
         .data0_i(aluSrc2_reg),
         .data1_i(immdt16_SE32),
         .select_i(AluSrc_c),
         .data_o(aluSrc2)
         );	
-                
+*/
+
 ALU ALU(//need to know PC +4 
         .src1_i(aluSrc1),
         .src2_i(aluSrc2),
-        .ctrl_i(aluOpCode),
-        .result_o(aluResult),
-        .shamt( instr_shamt ),
-        .pc_add4(pc_add4),
-        .zero_o(alu_zero)
+        .ctrl_i(aluOpCode_EX),
+        .result_o(aluResult_EX),
+        .shamt( instr_shamt_EX),
+        .pc_add4(pc_add4_EX),
+        .zero_o(alu_zero_EX),
         );
 
+/*不需要了，現在只要在 alu 後面的 branch 用 and 接起來就可以了
 MUX_4to1 #(.size(1)) Mux_ALU_Branch_type(
         .data0_i( alu_zero),
         .data1_i( alu_zero | aluResult[31]),
@@ -310,6 +315,7 @@ MUX_4to1 #(.size(1)) Mux_ALU_Branch_type(
         .select_i(BranchType_c),
         .data_o(alu_mux_branch)
 );
+*/
 
 //Use this as a  3-1 Mux 
 MUX_4to1 #(.size(5)) Mux_Write_Reg(
@@ -343,14 +349,14 @@ Shift_Left_Two_32 Shifter(
         .data_o(shiftout)
         ); 		
                 
-                      
+/* 廢棄不用 ，要重寫一個完全不一樣的東西                      
 MUX_2to1 #(.size(32)) Mux_Branch_or_PCAdd4(
         .data0_i(pc_add4),
         .data1_i(branch_addr),
         .select_i(pcBranch_sel),
         .data_o(Mux_Branch_or_PCAdd4_out)
         );	
-
+*/
 
 //MEM stage END 
 
