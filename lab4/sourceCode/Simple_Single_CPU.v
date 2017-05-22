@@ -463,15 +463,13 @@ PipeLineReg #() MEM_WB(
 WB stage : Write Back
 */
 
-//Use this as a  3-1 Mux 
-MUX_4to1 #(.size(32)) Mux_WriteBack(
-        .data0_i(aluResult),
-        .data1_i(MemRead_data_WB),
-        .data2_i(immdt16_SE32),
-        .data3_i(32'd0),
-        .select_i(MemToReg_c),
-        .data_o(regWB_data)
-        );	
+MUX_2to1 #(.size(32)) Mux_WriteBack(
+    .data0_i(MemRead_data_WB),
+    .data1_i(aluResult_WB),
+    .select_i(MemToReg_c),// 再改一下
+    .data_o()
+);
+
 //WB stage END 
 
 endmodule
