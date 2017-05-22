@@ -77,10 +77,10 @@ wire RW_ID_muxOut,MR_ID_muxOut,MW_ID_muxOut;
 wire RW_EX_muxOut,MR_EX_muxOut,MW_EX_muxOut;
 
 wire [32-1:0]   regWB_data,     //The data writed back to RegisterFile, if any. 
-                MemRead_data,
-                aluResult_EX, aluResult_MEM,
+                MemRead_data_MEM, MemRead_data_WB, 
+                aluResult_EX, aluResult_MEM,aluResult_WB,
                 aluSrc1,        aluSrc2, //input for alu. 
-                aluSrc2_reg_EX, aluSrc2_reg_MEM,  
+                aluSrc2_reg_EX, aluSrc2_reg_MEM,
                 jump_addr,              //The jump address, if any                
                 pc_next,        pc_data,        
                 //immdt16_SE32,   //32bit Signed Extened value derived from the 16bit immediate one    
@@ -296,6 +296,11 @@ PipeLineReg #() ID_EX(
 /**
 EX stage : Execution  
 */
+Shift_Left_Two_32 Shifter(
+        .data_i(immdt16_SE32_EX),
+        .data_o(shiftout)
+        ); 		
+
 Adder Branch_adder(
         .src1_i(pc_add4_EX),     
         .src2_i(shiftout),     
@@ -408,18 +413,15 @@ MEM stage : Memory
 Data_Memory Data_Memory(
         .clk_i(clk_i),
         .addr_i(aluResult_MEM),
-        .data_i(aluSrc2_reg),
-        .MemRead_i( MemRead_c),
-        .MemWrite_i(MemWrite_c),
-        .data_o(MemRead_data)        
+        .data_i(aluSrc2_reg_MEM),
+        .MemRead_i( MemRead_c_MEM),
+        .MemWrite_i(MemWrite_c_MEM),
+        .data_o(MemRead_data_MEM)        
 );
 
 
                             
-Shift_Left_Two_32 Shifter(
-        .data_i(immdt16_SE32),
-        .data_o(shiftout)
-        ); 		
+
                 
 /* 廢棄不用 ，要重寫一個完全不一樣的東西                      
 MUX_2to1 #(.size(32)) Mux_Branch_or_PCAdd4(
@@ -432,6 +434,31 @@ MUX_2to1 #(.size(32)) Mux_Branch_or_PCAdd4(
 
 //MEM stage END 
 
+PipeLineReg #() MEM_WB(
+    .clk(clk_i),
+    .write_data(),
+    .in({   
+        //control signals
+        MemRead_c_MEM,
+        MemWrite_c_MEM,
+
+        //data fields 
+        MemRead_data_MEM,
+        aluResult_MEM,
+        //應該還要有一條訊號是送給 forwarding unit 的，但確切是哪一條忘記了，之後再補。
+    }),
+    .out({
+        /*decoder控制訊號*/
+        MemRead_c_MEM,
+        MemWrite_c_MEM,
+        
+        //data Fields 
+        MemRead_data_WB, 
+        aluResult_WB,
+    })
+);
+
+
 /**
 WB stage : Write Back
 */
@@ -439,7 +466,7 @@ WB stage : Write Back
 //Use this as a  3-1 Mux 
 MUX_4to1 #(.size(32)) Mux_WriteBack(
         .data0_i(aluResult),
-        .data1_i(MemRead_data),
+        .data1_i(MemRead_data_WB),
         .data2_i(immdt16_SE32),
         .data3_i(32'd0),
         .select_i(MemToReg_c),
