@@ -24,9 +24,9 @@ Internal signal
 /**** 
 IF stage 
 ****/
-wire [`i32]pc_next,    pc_dataㄤ
+wire [`i32]pc_next,    pc_data ;
 wire [`i32] pc_add4_IF;
-
+wire PCSrc; 
 
 /**** 
 ID stage 
@@ -37,10 +37,11 @@ wire RW_ID_muxOut,MR_ID_muxOut,MW_ID_muxOut;
     //EX
 wire AluSrc_c_ID, 
 wire [`i4]AluOp_c_ID;
-wire [`i3]RegDst_c_ID;
+wire RegDst_c_ID;
     //MEM
-wire [`i3] Branch_c_ID;
+wire Branch_c_ID;
 wire MemRead_c_ID,   MemWrite_c_ID;  
+wire MemToReg_c_ID,
     //WB
 wire RegWrite_c_ID ;
 
@@ -52,10 +53,11 @@ wire RW_EX_muxOut,MR_EX_muxOut,MW_EX_muxOut;
     //EX
 wire AluSrc_c_EX;
 wire [`i4]AluOp_c_EX;
-wire [`i3]RegDst_c_EX;
+wire RegDst_c_EX;
     //MEM
-wire [`i3] Branch_c_EX;
+wire Branch_c_EX;
 wire MemRead_c_EX,   MemWrite_c_EX;  
+wire MemToReg_c_EX;
     //WB
 wire RegWrite_c_EX ;
 
@@ -65,9 +67,10 @@ MEM stage
 
 //control signal
 //MEM
-wire MemRead_c_MEM,   MemWrite_c_MEM;  
+wire MemRead_c_MEM,   MemWrite_c_MEM; 
+wire MemToReg_c_MEM; 
 //EX
-wire [`i3]Branch_c_MEM;
+wire Branch_c_MEM;
 //WB
 wire RegWrite_c_MEM;
 
@@ -78,6 +81,7 @@ WB stage
 //control signal
 //MEM
 wire MemRead_c_WB,   MemWrite_c_WB;
+wire MemToReg_c_WB;
 //WB
 wire RegWrite_c_WB ;
 
@@ -118,43 +122,38 @@ wire            alu_zero_EX,alu_zero_MEM,       //Indicate the value of alu is z
                 pcBranch_sel;   //Selecting value for Mux_PC_Source 
 
 wire [4-1:0]      aluOpCode_ID, aluOpCode_EX;      //The operation code that ALU get from ALU_Control  
-wire [5-1:0]      writeReg_addr;  //The address of the reg that need to be write back, if any.
+wire [5-1:0]      writeReg_addr_EX,writeReg_addr_MEM, writeReg_addr_WB ;  //The address of the reg that need to be write back, if any.
 
 
 //Indicate the meaning of the sub-sections in the instruction field     
+wire    [32-1:0] instr_IF; 
 wire    [5-1:0] instr_rs_ID,  instr_rt_ID,  instr_rd_ID, instr_shamt_ID;
 wire    [5-1:0] instr_rs_EX,  instr_rt_EX,  instr_rd_EX, instr_shamt_EX;
 wire    [5-1:0] instr_rs_MEM,  instr_rt_MEM,  instr_rd_MEM, instr_shamt_MEM;
-wire    [6-1:0] instr_op,instr_funct;
+wire    [6-1:0] instr_op,instr_funct_ID, instr_funct_EX;
 wire    [16-1:0] instr_immdt;
 
 
-assign { instr_op, instr_rs_ID, instr_rt_ID, instr_rd_ID, instr_shamt_ID, instr_funct } = instr_ID;
-assign instr_immdt = instr[15:0];
+assign { instr_op, instr_rs_ID, instr_rt_ID, instr_rd_ID, instr_shamt_ID, instr_funct_ID } = instr_ID;
+assign instr_immdt = instr_IF[15:0];
 // 再改一下 assign pcBranch_sel = alu_mux_branch & Branch_c;
-assign jump_addr = {  pc_add4[31:28], instr[25:0], 2'b00};
+//assign jump_addr = {  pc_add4[31:28], instr_IF[25:0], 2'b00};
 
 /**
 IF stage: Instruction Fetch
 */
 
-//Use this as a  3-1 Mux 
-/*
-MUX_4to1 #(.size(32)) Mux_PC_Source(
-        .data0_i(Mux_Branch_or_PCAdd4_out),//NO jump. Only Branch or PCadd4 
-        .data1_i(jump_addr),
-        .data2_i(aluSrc1),//jump addr comes from reg
-        .data3_i(32'b0),
-        .select_i(Jump_c),
-        .data_o(pc_next)
-);*/
-Mux_2to1 Mux_PC_Source(
-
+Mux_2to1 #(.size(32))Mux_PC_Source(
+    .data0_i(branch_addr_MEM),
+    .data1_i(pc_add4_IF),
+    .select_i(PCSrc),
+    .data_o(pc_next),
 );
 
 ProgramCounter PC(
         .clk_i(clk_i),      
-        .rst_i (rst_i),     
+        .rst_i (rst_i),
+        .pcWrite(1'b1), //hazard dection unit 做好之後再接
         .pc_in_i(pc_next),
         .pc_out_o(pc_data) 
         );
@@ -167,17 +166,17 @@ Adder PC4_adder(
 
 Instr_Memory IM(
         .addr_i(pc_data),  
-        .instr_o(instr)    
+        .instr_o(instr_IF)    
         );
 
 //IF stage END
 
 Pipe_Reg #(.size(64)) IF_ID(
     .clk_i(clk_i),
-    .rst_i(),
+    .rst_i(1'b1),// 把這裡接上 IF flush 
     .data_i({   
         pc_add4_IF,
-        instr
+        instr_IF
     }),
     .data_o({
         pc_add4_ID,
@@ -185,18 +184,16 @@ Pipe_Reg #(.size(64)) IF_ID(
     })
 );
 
+
 /**
 ID stage : Instruction Decoding
 */
-
-
-        
 Reg_File RF(
         .clk_i(clk_i),      
         .rst_i(rst_i) ,     
-        .RSaddr_i(instr_rs) ,  
-        .RTaddr_i(instr_rt) ,  
-        .RDaddr_i(writeReg_addr) ,  
+        .RSaddr_i(instr_rs_ID) ,  
+        .RTaddr_i(instr_rt_ID) ,  
+        .RDaddr_i(writeReg_addr_WB) ,  
         .RDdata_i(regWB_data)  , 
         .RegWrite_i (RegWrite_c),
         .RSdata_o(RF_outRS_ID) ,  
@@ -206,13 +203,13 @@ Reg_File RF(
 Decoder Control(
         //input 
         .instr_op_i(instr_op),
-        .instr_funct_i( instr_funct), 
+        .instr_funct_i( instr_funct_ID), 
 
         //output 
         .ALU_op_o(AluOp_c_ID),   
         .ALUSrc_o(AluSrc_c_ID),   
         .RegDst_o(RegDst_c_ID),   
-        .Branch_o(Branch_c_ID),
+        .Branch_o(Branch_c_ID),//要改成 1 bit 寬 
         .MemToReg_o(MemToReg_c_ID),
         .RegWrite_o(RegWrite_c_ID), 
         .MemRead_o(MemRead_c_ID),
@@ -232,7 +229,7 @@ MUX_2to1 #(.size(3)) ID_EX_pipeLineSrc(
     .data0_i({
         RegWrite_c,
         MemRead_c,
-        MemWrite_c
+        MemWrite_c,
     }),
     .data1_i(3'b0),
     .select_i(),
@@ -255,6 +252,7 @@ Pipe_Reg #() ID_EX(
         AluOp_c_ID,
         RegDst_c_ID,
         Branch_c_ID,
+        MemToReg_c_ID,
         
         RW_ID_muxOut,
         MR_ID_muxOut, 
@@ -268,6 +266,7 @@ Pipe_Reg #() ID_EX(
         instr_rs_ID,
         instr_rt_ID,
         instr_rd_ID,
+        instr_funct_ID,
         instr_shamt_ID
     }),
     .out({
@@ -277,7 +276,8 @@ Pipe_Reg #() ID_EX(
         AluSrc_c_EX,
         AluOp_c_EX,
         RegDst_c_EX,
-        Branch_c_ID,
+        Branch_c_EX,
+        MemToReg_c_EX,
 
         RegWrite_c_EX,
         MemRead_c_EX,
@@ -290,6 +290,7 @@ Pipe_Reg #() ID_EX(
         instr_rs_EX,
         instr_rt_EX,
         instr_rd_EX,
+        instr_funct_EX,
         instr_shamt_EX
     })
 );
@@ -299,6 +300,13 @@ Pipe_Reg #() ID_EX(
 /**
 EX stage : Execution  
 */
+Mux_2to1 #( .size()) Mux_Write_Reg(
+    .data0_i(instr_rt_EX),
+    .data1_i(instr_rd_EX),
+    .select_i( RegDst_c_EX ),
+    .data_o( writeReg_addr_EX)
+);
+
 Shift_Left_Two_32 Shifter(
         .data_i(immdt16_SE32_EX),
         .data_o(shiftout)
@@ -311,18 +319,19 @@ Adder Branch_adder(
         );
 
 //Forwarding control 
+//還沒做好
 Mux_3to1 #(.size(32)) Mux_ALUSrc1_forwarding(
     .data0_i( RF_outRS_EX),
     .data1_i( aluResult_MEM ),
     .data2_i( regWB_data ),
-    .select_i(),// 訊號由forwarding unit 拉出來
+    .select_i(1'b0),// 訊號由forwarding unit 拉出來
     .data_o( aluSrc1)
 );
 Mux_3to1 #(.size(32)) Mux_ALUSrc2_forwarding(
     .data0_i( RF_outRT_EX ),
     .data1_i( aluResult_MEM),
     .data2_i( regWB_data ),
-    .select_i(),// 訊號由forwarding unit 拉出來
+    .select_i(1'b0),// 訊號由forwarding unit 拉出來
     .data_o( aluSrc2_reg_EX)
 );
 MUX_2to1 #(.size(32)) Mux_ALUSrc2(
@@ -337,9 +346,9 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc2(
 // 在這裡應該還要有一個mux, 等做完 hazard detection跟 forwarding後再來想是幹嘛的
 
 ALU_Ctrl AC(
-        .funct_i(instr_funct),   
-        .ALUOp_i(AluOp_c_ID),   
-        .ALUCtrl_o(aluOpCode_ID) 
+        .funct_i(instr_funct_EX),   
+        .ALUOp_i(AluOp_c_EX),   
+        .ALUCtrl_o(aluOpCode_EX) 
         );
 
 
@@ -353,18 +362,6 @@ ALU ALU(//need to know PC +4
         .zero_o(alu_zero_EX),
         );
 
-
-//Use this as a  3-1 Mux 
-MUX_4to1 #(.size(5)) Mux_Write_Reg(
-        .data0_i(instr_rt),
-        .data1_i(instr_rd),
-        .data2_i(5'd31),//the register to store return address
-        .data3_i(5'd0),//Not used 
-        .select_i(RegDst_c),//need to change to 2 bit to implemet jal
-        .data_o(writeReg_addr)
-        );	
-
-
 //EX stage END 
 
 //只需要把這三個欄位清空就不會有作用了
@@ -376,7 +373,7 @@ MUX_2to1 #(.size(3)) EX_MEM_pipeLineSrc(
         MemWrite_c_EX
     }),
     .data1_i(3'b0),
-    .select_i(),
+    .select_i(1'b0),
     .data_o({
         RW_EX_muxOut,
         MR_EX_muxOut,
@@ -390,12 +387,16 @@ PipeLineReg #(.size(N)) EX_MEM(
     .data_i({   
         //control signals
         Branch_c_EX,
+        MemToReg_c_EX,
         
         RW_EX_muxOut,
         MR_EX_muxOut, 
         MW_EX_muxOut,
 
         //data fields 
+        aluResult_EX,
+        alu_zero_EX,
+        writeReg_addr_EX,
         aluSrc2_reg_EX,
         branch_addr_EX,
         instr_rs_EX,//感覺可能不需要，因為firwarding unit 應該不需要知道src
@@ -405,11 +406,15 @@ PipeLineReg #(.size(N)) EX_MEM(
     .data_o({
         /*decoder控制訊號*/
         Branch_c_MEM,
+        MemToReg_c_MEM,
 
         RegWrite_c_MEM,
         MemRead_c_MEM,
         MemWrite_c_MEM,
         
+        aluResult_MEM,
+        alu_zero_MEM,
+        writeReg_addr_MEM,
         aluSrc2_reg_MEM, 
         branch_addr_MEM,
         instr_rs_MEM,
@@ -422,6 +427,8 @@ PipeLineReg #(.size(N)) EX_MEM(
 /**
 MEM stage : Memory 
 */
+assign PCSrc = Branch_c_MEM & alu_zero_MEM; 
+
 Data_Memory Data_Memory(
         .clk_i(clk_i),
         .addr_i(aluResult_MEM),
@@ -431,40 +438,31 @@ Data_Memory Data_Memory(
         .data_o(MemRead_data_MEM)        
 );
 
-
-                            
-
-                
-/* 廢棄不用 ，要重寫一個完全不一樣的東西                      
-MUX_2to1 #(.size(32)) Mux_Branch_or_PCAdd4(
-        .data0_i(pc_add4),
-        .data1_i(branch_addr),
-        .select_i(pcBranch_sel),
-        .data_o(Mux_Branch_or_PCAdd4_out)
-        );	
-*/
-
 //MEM stage END 
 
 Pipe_Reg #(.size(N)) MEM_WB(
     .clk_i(clk_i),
-    .rst_i(),
+    .rst_i(1'b1),//還沒接
     .data_i({   
         //control signals
         MemRead_c_MEM,
         MemWrite_c_MEM,
+        MemToReg_c_MEM,
 
-        //data fields 
+        //data fields
+        writeReg_addr_MEM, 
         MemRead_data_MEM,
         aluResult_MEM,
         //應該還要有一條訊號是送給 forwarding unit 的，但確切是哪一條忘記了，之後再補。
     }),
     .data_o({
         /*decoder控制訊號*/
-        MemRead_c_MEM,
-        MemWrite_c_MEM,
+        MemRead_c_WB,
+        MemWrite_c_WB,
+        MemToReg_c_WB,
         
         //data Fields 
+        writeReg_addr_WB,
         MemRead_data_WB, 
         aluResult_WB,
     })
@@ -478,8 +476,8 @@ WB stage : Write Back
 MUX_2to1 #(.size(32)) Mux_WriteBack(
     .data0_i(MemRead_data_WB),
     .data1_i(aluResult_WB),
-    .select_i(MemToReg_c),// 再改一下
-    .data_o()
+    .select_i(MemToReg_c_WB),// 再改一下
+    .data_o(regWB_data)
 );
 
 //WB stage END 
