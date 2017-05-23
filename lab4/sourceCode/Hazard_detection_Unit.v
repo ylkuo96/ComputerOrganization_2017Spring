@@ -12,21 +12,45 @@ module Hazard_detection_Unit(
 
     input   MEM_Branch, 
 
-    output  PCWrite,
-    output  IF_ID_Write,
-    output  IF_ID_FLUSH,
-    output  ID_EX_Flush
+    output  reg PCWrite,
+    output  reg IF_ID_Write,
+    output  reg IF_ID_Flush,
+    output  reg ID_EX_Flush
 );
+
 /**
 因為有Branch 的存在, 所以pipeLined CPU會需要 簡單的Branch prediction機制
 與 Exception( 預測錯誤 )
 
 這個cpu 的branch 機制是假設branch always not taken
-所以 branch signal 一但為true, 就要清空前面的 pipeLine ( clear )
+所以 branch signal 一但為true, 就要清空前面的 pipeLine ( flush )
 
 一但發生 load use hazard , 就要產生 stall
 */
 
+wire need_to_stall;
+assign need_to_stall = ( EX_MemRead and
+                         ( (EX_RegisterRt == ID_RegisterRs) or
+                            (EX_RegisterRt == ID_RegisterRt)    )       
+                        ) == 1 ;
+wire branch_misPredict;
+assign branch_misPredict = branch ; 
+
+always @(*)begin
+//PipeLine Stall  
+  if( need_to_stall )begin
+    IF_ID_Write <= 0;
+    ID_EX_Flush <= 1;
+    PCWrite <= 0;  
+    end
+  else if (branch_misPredict) begin
+    IF_ID_Flush <=1;
+    ID_EX_Flush <=1;
+    PCWrite <=1;
+
+  end
+
+end
 
 
 endmodule
