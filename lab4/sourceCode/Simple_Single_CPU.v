@@ -242,35 +242,34 @@ MUX_2to1 #(.size(3)) ID_EX_pipeLineSrc(
 
         
 //長度還沒定，hazard unit還沒寫所以write還沒接
-Pipe_Reg #() ID_EX(
+Pipe_Reg #(169) ID_EX(
     .clk_i(clk_i),
     .write_data(),
     .in({   
-        aluOpCode_ID,
+        aluOpCode_ID,           //4
         //control signals
-        AluSrc_c_ID, 
-        AluOp_c_ID,
-        RegDst_c_ID,
-        Branch_c_ID,
-        MemToReg_c_ID,
+        AluSrc_c_ID,            //1
+        AluOp_c_ID,             //4
+        RegDst_c_ID,            //1
+        Branch_c_ID,            //1
+        MemToReg_c_ID,          //1
         
-        RW_ID_muxOut,
-        MR_ID_muxOut, 
-        MW_ID_muxOut,
+        RW_ID_muxOut,           //1
+        MR_ID_muxOut,           //1
+        MW_ID_muxOut,           //1
 
         //data fields 
-        pc_add4_ID,
-        RF_outRS_ID,
-        RF_outRT_ID,
-        immdt16_SE32_ID, 
-        instr_rs_ID,
-        instr_rt_ID,
-        instr_rd_ID,
-        instr_funct_ID,
-        instr_shamt_ID
+        pc_add4_ID,             //32
+        RF_outRS_ID,            //32
+        RF_outRT_ID,            //32
+        immdt16_SE32_ID,        //32
+        instr_rs_ID,            //5
+        instr_rt_ID,            //5
+        instr_rd_ID,            //5
+        instr_funct_ID,         //6
+        instr_shamt_ID          //5            
     }),
     .out({
-        pc_add4_EX,
         aluOpCode_EX,
         /*一堆decoder控制訊號*/
         AluSrc_c_EX,
@@ -300,7 +299,7 @@ Pipe_Reg #() ID_EX(
 /**
 EX stage : Execution  
 */
-Mux_2to1 #( .size()) Mux_Write_Reg(
+Mux_2to1 #( .size(5)) Mux_Write_Reg(
     .data0_i(instr_rt_EX),
     .data1_i(instr_rd_EX),
     .select_i( RegDst_c_EX ),
@@ -381,27 +380,28 @@ MUX_2to1 #(.size(3)) EX_MEM_pipeLineSrc(
     })
 );
 
-PipeLineReg #(.size(N)) EX_MEM(
+PipeLineReg #(.size(122)) EX_MEM(
     .clk(clk_i),
     .rst_i(),
     .data_i({   
         //control signals
-        Branch_c_EX,
-        MemToReg_c_EX,
+        Branch_c_EX,                //1
+        MemToReg_c_EX,              //1
         
-        RW_EX_muxOut,
-        MR_EX_muxOut, 
-        MW_EX_muxOut,
+        RW_EX_muxOut,               //1
+        MR_EX_muxOut,               //1
+        MW_EX_muxOut,               //1
 
         //data fields 
-        aluResult_EX,
-        alu_zero_EX,
-        writeReg_addr_EX,
-        aluSrc2_reg_EX,
-        branch_addr_EX,
-        instr_rs_EX,//感覺可能不需要，因為firwarding unit 應該不需要知道src
-        instr_rt_EX,
-        instr_rd_EX
+        aluResult_EX,               //32
+        alu_zero_EX,                //1
+        writeReg_addr_EX,           //5
+        aluSrc2_reg_EX,             //32
+        branch_addr_EX,             //32
+        //感覺可能不需要, 因為 forwarding unit應該不需要知道 src 是誰
+        instr_rs_EX,                //5
+        instr_rt_EX,                //5
+        instr_rd_EX                 //5
     }),
     .data_o({
         /*decoder控制訊號*/
@@ -440,19 +440,19 @@ Data_Memory Data_Memory(
 
 //MEM stage END 
 
-Pipe_Reg #(.size(N)) MEM_WB(
+Pipe_Reg #(.size(72)) MEM_WB(
     .clk_i(clk_i),
     .rst_i(1'b1),//還沒接
     .data_i({   
         //control signals
-        MemRead_c_MEM,
-        MemWrite_c_MEM,
-        MemToReg_c_MEM,
+        MemRead_c_MEM,              //1
+        MemWrite_c_MEM,             //1
+        MemToReg_c_MEM,             //1
 
         //data fields
-        writeReg_addr_MEM, 
-        MemRead_data_MEM,
-        aluResult_MEM,
+        writeReg_addr_MEM,          //5
+        MemRead_data_MEM,           //32
+        aluResult_MEM,              //32
         //應該還要有一條訊號是送給 forwarding unit 的，但確切是哪一條忘記了，之後再補。
     }),
     .data_o({
@@ -476,7 +476,7 @@ WB stage : Write Back
 MUX_2to1 #(.size(32)) Mux_WriteBack(
     .data0_i(MemRead_data_WB),
     .data1_i(aluResult_WB),
-    .select_i(MemToReg_c_WB),// 再改一下
+    .select_i(MemToReg_c_WB),
     .data_o(regWB_data)
 );
 
