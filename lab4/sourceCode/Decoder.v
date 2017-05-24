@@ -5,17 +5,16 @@
 //--------------------------------------------
 
 module Decoder(
-input	    [6-1:0] instr_op_i,
+input	    	[6-1:0] instr_op_i,
 input       [6-1:0] instr_funct_i, 
-output	reg 		RegWrite_o,
+output	reg 				RegWrite_o,
 output	reg [4-1:0]	ALU_op_o,
-output	reg			ALUSrc_o,
-output	reg	[2-1:0]	RegDst_o,
-output	reg			Branch_o,
+output	reg					ALUSrc_o,
+output	reg					RegDst_o,
+output	reg					Branch_o,
 output	reg [2-1:0]	MemToReg_o,
-//output	reg [2-1:0]	BranchType_o,
-output	reg			MemRead_o,
-output	reg			MemWrite_o
+output	reg					MemRead_o,
+output	reg					MemWrite_o
 	);
 	
 //Internal signals
@@ -29,9 +28,9 @@ parameter bType_BEQ 	= 2'd0;
 */
 
 //{RegWrite_o, RegDst_o }
-parameter REG_NO_WRITE 		= 3'b0_xx;
-parameter REG_WRITE_SRC_RT 	= 3'b1_00;
-parameter REG_WRITE_SRC_RD 	= 3'b1_01;
+parameter REG_NO_WRITE 		= 2'b0_x;
+parameter REG_WRITE_SRC_RT 	= 2'b1_0;
+parameter REG_WRITE_SRC_RD 	= 2'b1_1;
 parameter REG_JAL           = 3'b1_10;//designed for Jal instruciton 
 
 //{ MemRead_o, MemWrite_o }
@@ -107,7 +106,7 @@ parameter DONTCARE4 = 4'bxxxx;
 		  end
 
 		6'd15:begin //LUI 
-                    //需要修改 alu_op_o 跟 alu_control 的代號， 以及在 alu 中新增 lui 專屬行為 
+                    //�要修alu_op_o �alu_control �代�� 以�alu 中新�lui 專屬行為 
 			ALU_op_o                  <= 4'd8; 
 			ALUSrc_o                  <= ALU_SRC_IMMDT;
 			{ RegWrite_o, RegDst_o }  <= REG_WRITE_SRC_RT;
@@ -136,7 +135,7 @@ parameter DONTCARE4 = 4'bxxxx;
 			Branch_o <= 1'b0;
 		  end
 		default: 
-			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o} <= bx ; 
+			{ALU_op_o,ALUSrc_o,RegWrite_o,RegDst_o,MemToReg_o,MemRead_o, MemWrite_o,Branch_o} <= 'bx ; 
 			
 	  endcase
 	end

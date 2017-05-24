@@ -3,9 +3,6 @@
 //Student: 0411276 Chen Yi An
 //Student: 0413335 Kuo Yi Lin
 //--------------------------------------------
-`define i32 = 31:0 
-`define i3 = 2:0
-`define i4 = 3:0
 module Simple_Single_CPU(
                 clk_i,
                 rst_i
@@ -24,8 +21,8 @@ Internal signal
 /**** 
 IF stage 
 ****/
-wire [`i32]pc_next,    pc_data ;
-wire [`i32] pc_add4_IF;
+wire [32-1:0] pc_next,    pc_data ;
+wire [32-1:0] pc_add4_IF;
 wire PCSrc; 
 
 /**** 
@@ -35,13 +32,13 @@ ID stage
 //control signal
 wire RW_ID_muxOut,MR_ID_muxOut,MW_ID_muxOut;
     //EX
-wire AluSrc_c_ID, 
-wire [`i4]AluOp_c_ID;
+wire AluSrc_c_ID;
+wire [4-1:0] AluOp_c_ID;
 wire RegDst_c_ID;
     //MEM
 wire Branch_c_ID;
 wire MemRead_c_ID,   MemWrite_c_ID;  
-wire MemToReg_c_ID,
+wire MemToReg_c_ID;
     //WB
 wire RegWrite_c_ID ;
 
@@ -52,7 +49,7 @@ wire RW_EX_muxOut,MR_EX_muxOut,MW_EX_muxOut;
 //control signal
     //EX
 wire AluSrc_c_EX;
-wire [`i4]AluOp_c_EX;
+wire [4-1:0]AluOp_c_EX;
 wire RegDst_c_EX;
     //MEM
 wire Branch_c_EX;
@@ -86,7 +83,7 @@ wire MemToReg_c_WB;
 wire RegWrite_c_WB ;
 
 
-//依用途分類
+//grouped by usage 
 wire [32-1:0]   regWB_data,     //The data writed back to RegisterFile, if any. 
                 MemRead_data_MEM, MemRead_data_WB, 
                 aluResult_EX, aluResult_MEM,aluResult_WB,
@@ -98,21 +95,19 @@ wire [32-1:0]   regWB_data,     //The data writed back to RegisterFile, if any.
                 Mux_Branch_or_PCAdd4_out; 
 
 
-wire [`i32] pc_add4_ID;
-wire [`i32] pc_add4_EX;
-wire [`i32] branch_addr_EX,branch_addr_MEM;//Mux_PC_Source's input
-                        //在ex stage後取代 pc_add4的值,形成真正的可跳轉地址
+wire [32-1:0] pc_add4_ID;
+wire [32-1:0] pc_add4_EX;
+wire [32-1:0] branch_addr_EX,branch_addr_MEM;//Mux_PC_Source's input
 
 
-//依據forwarding 會使用到的資料而分類
-wire [`i32] RF_outRS_ID, RF_outRS_EX;
-wire [`i32] RF_outRT_ID, RF_outRT_EX;
-wire [`i32] RF_outRD_ID, RF_outRD_EX, RF_outRD_MEM, RF_outRD_WB;
+wire [32-1:0] RF_outRS_ID, RF_outRS_EX;
+wire [32-1:0] RF_outRT_ID, RF_outRT_EX;
+wire [32-1:0] RF_outRD_ID, RF_outRD_EX, RF_outRD_MEM, RF_outRD_WB;
 
 
-wire [`i32] immdt16_SE32_ID, immdt16_SE32_EX; 
+wire [32-1:0] immdt16_SE32_ID, immdt16_SE32_EX; 
 
-wire [`i32] instr_ID;//values from instruction memory according to it's address
+wire [32-1:0] instr_ID;//values from instruction memory according to it's address
 
 
 wire            alu_zero_EX,alu_zero_MEM,       //Indicate the value of alu is zero or not (for branch usage )
@@ -136,24 +131,22 @@ wire    [16-1:0] instr_immdt;
 
 assign { instr_op, instr_rs_ID, instr_rt_ID, instr_rd_ID, instr_shamt_ID, instr_funct_ID } = instr_ID;
 assign instr_immdt = instr_IF[15:0];
-// 再改一下 assign pcBranch_sel = alu_mux_branch & Branch_c;
-//assign jump_addr = {  pc_add4[31:28], instr_IF[25:0], 2'b00};
 
 /**
 IF stage: Instruction Fetch
 */
 
-Mux_2to1 #(.size(32))Mux_PC_Source(
+MUX_2to1 #(.size(32))Mux_PC_Source(
     .data0_i(branch_addr_MEM),
     .data1_i(pc_add4_IF),
     .select_i(PCSrc),
-    .data_o(pc_next),
+    .data_o(pc_next)
 );
 
 ProgramCounter PC(
         .clk_i(clk_i),      
         .rst_i (rst_i),
-        .pcWrite(1'b1), //hazard dection unit 做好之後再接
+        .pcWrite(1'b1), //connect this after implementing hazard dection unit
         .pc_in_i(pc_next),
         .pc_out_o(pc_data) 
         );
@@ -173,7 +166,7 @@ Instr_Memory IM(
 
 Pipe_Reg #(.size(64)) IF_ID(
     .clk_i(clk_i),
-    .rst_i(1'b1),// 把這裡接上 IF flush 
+    .rst_i(1'b1), //connect to IF flush
     .data_i({   
         pc_add4_IF,
         instr_IF
@@ -195,7 +188,7 @@ Reg_File RF(
         .RTaddr_i(instr_rt_ID) ,  
         .RDaddr_i(writeReg_addr_WB) ,  
         .RDdata_i(regWB_data)  , 
-        .RegWrite_i (RegWrite_c),
+        .RegWrite_i (RegWrite_c_ID),
         .RSdata_o(RF_outRS_ID) ,  
         .RTdata_o(RF_outRT_ID)   
         );
@@ -209,7 +202,7 @@ Decoder Control(
         .ALU_op_o(AluOp_c_ID),   
         .ALUSrc_o(AluSrc_c_ID),   
         .RegDst_o(RegDst_c_ID),   
-        .Branch_o(Branch_c_ID),//要改成 1 bit 寬 
+        .Branch_o(Branch_c_ID),//need change width to 1-bit
         .MemToReg_o(MemToReg_c_ID),
         .RegWrite_o(RegWrite_c_ID), 
         .MemRead_o(MemRead_c_ID),
@@ -218,18 +211,18 @@ Decoder Control(
 
 Sign_Extend Sign_Extend(
         .data_i(instr_immdt),
-        .data_o(immdt16_SE32)
+        .data_o(immdt16_SE32_ID)
         );
 
 //ID stage END
 
-//只需要把這三個欄位清空就不會有作用了
-//PC能否寫入由decoder控制
+//The instructions berecome nop 
+//after clear these three control signal
 MUX_2to1 #(.size(3)) ID_EX_pipeLineSrc(
     .data0_i({
-        RegWrite_c,
-        MemRead_c,
-        MemWrite_c,
+        RegWrite_c_ID,
+        MemRead_c_ID,
+        MemWrite_c_ID
     }),
     .data1_i(3'b0),
     .select_i(),
@@ -240,12 +233,10 @@ MUX_2to1 #(.size(3)) ID_EX_pipeLineSrc(
     })
 );
 
-        
-//長度還沒定，hazard unit還沒寫所以write還沒接
 Pipe_Reg #(169) ID_EX(
     .clk_i(clk_i),
-    .write_data(),
-    .in({   
+    .rst_i(1'b1),//connect to hazard detection unit after implemented it
+    .data_i({   
         aluOpCode_ID,           //4
         //control signals
         AluSrc_c_ID,            //1
@@ -269,9 +260,9 @@ Pipe_Reg #(169) ID_EX(
         instr_funct_ID,         //6
         instr_shamt_ID          //5            
     }),
-    .out({
+    .data_o({
         aluOpCode_EX,
-        /*一堆decoder控制訊號*/
+        /*control signal*/
         AluSrc_c_EX,
         AluOp_c_EX,
         RegDst_c_EX,
@@ -299,7 +290,7 @@ Pipe_Reg #(169) ID_EX(
 /**
 EX stage : Execution  
 */
-Mux_2to1 #( .size(5)) Mux_Write_Reg(
+MUX_2to1 #( .size(5)) Mux_Write_Reg(
     .data0_i(instr_rt_EX),
     .data1_i(instr_rd_EX),
     .select_i( RegDst_c_EX ),
@@ -318,20 +309,20 @@ Adder Branch_adder(
         );
 
 //Forwarding control 
-//還沒做好
-Mux_3to1 #(.size(32)) Mux_ALUSrc1_forwarding(
+//not completed 
+MUX_3to1 #(.size(32)) Mux_ALUSrc1_forwarding(
     .data0_i( RF_outRS_EX),
     .data1_i( aluResult_MEM ),
     .data2_i( regWB_data ),
-    .select_i(1'b0),// 訊號由forwarding unit 拉出來
-    .data_o( aluSrc1)
+    .select_i(2'b0), //connedted from Frowarding Unit
+	 .data_o( aluSrc1)
 );
-Mux_3to1 #(.size(32)) Mux_ALUSrc2_forwarding(
+MUX_3to1 #(.size(32)) Mux_ALUSrc2_forwarding(
     .data0_i( RF_outRT_EX ),
     .data1_i( aluResult_MEM),
     .data2_i( regWB_data ),
-    .select_i(1'b0),// 訊號由forwarding unit 拉出來
-    .data_o( aluSrc2_reg_EX)
+    .select_i(2'b0),//connedted from Frowarding Unit
+	 .data_o( aluSrc2_reg_EX)
 );
 MUX_2to1 #(.size(32)) Mux_ALUSrc2(
     .data0_i(aluSrc2_reg_EX),
@@ -339,10 +330,6 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc2(
     .select_i(AluSrc_c_EX),
     .data_o(aluSrc2)
 );
-
-
-
-// 在這裡應該還要有一個mux, 等做完 hazard detection跟 forwarding後再來想是幹嘛的
 
 ALU_Ctrl AC(
         .funct_i(instr_funct_EX),   
@@ -357,14 +344,11 @@ ALU ALU(//need to know PC +4
         .ctrl_i(aluOpCode_EX),
         .result_o(aluResult_EX),
         .shamt( instr_shamt_EX),
-        .pc_add4(pc_add4_EX),
-        .zero_o(alu_zero_EX),
+        .zero_o(alu_zero_EX)
         );
 
 //EX stage END 
 
-//只需要把這三個欄位清空就不會有作用了
-//PC能否寫入由decoder控制
 MUX_2to1 #(.size(3)) EX_MEM_pipeLineSrc(
     .data0_i({
         RegWrite_c_EX,
@@ -380,9 +364,9 @@ MUX_2to1 #(.size(3)) EX_MEM_pipeLineSrc(
     })
 );
 
-PipeLineReg #(.size(122)) EX_MEM(
-    .clk(clk_i),
-    .rst_i(),
+Pipe_Reg #(.size(122)) EX_MEM(
+    .clk_i(clk_i),
+    .rst_i(1'b1),
     .data_i({   
         //control signals
         Branch_c_EX,                //1
@@ -398,13 +382,13 @@ PipeLineReg #(.size(122)) EX_MEM(
         writeReg_addr_EX,           //5
         aluSrc2_reg_EX,             //32
         branch_addr_EX,             //32
-        //感覺可能不需要, 因為 forwarding unit應該不需要知道 src 是誰
-        instr_rs_EX,                //5
+        
+        instr_rs_EX,                //5, this field might be useless? 
         instr_rt_EX,                //5
         instr_rd_EX                 //5
     }),
     .data_o({
-        /*decoder控制訊號*/
+        /*control signals*/
         Branch_c_MEM,
         MemToReg_c_MEM,
 
@@ -442,8 +426,8 @@ Data_Memory Data_Memory(
 
 Pipe_Reg #(.size(72)) MEM_WB(
     .clk_i(clk_i),
-    .rst_i(1'b1),//還沒接
-    .data_i({   
+    .rst_i(1'b1),// not completed yet
+	 .data_i({   
         //control signals
         MemRead_c_MEM,              //1
         MemWrite_c_MEM,             //1
@@ -452,11 +436,12 @@ Pipe_Reg #(.size(72)) MEM_WB(
         //data fields
         writeReg_addr_MEM,          //5
         MemRead_data_MEM,           //32
-        aluResult_MEM,              //32
-        //應該還要有一條訊號是送給 forwarding unit 的，但確切是哪一條忘記了，之後再補。
-    }),
+        aluResult_MEM               //32
+       //There should be a signal that give data to forwarding unit,
+       //But I forgot what exactly it is.    
+		  }),
     .data_o({
-        /*decoder控制訊號*/
+        /*decoder control signal*/
         MemRead_c_WB,
         MemWrite_c_WB,
         MemToReg_c_WB,
@@ -464,7 +449,7 @@ Pipe_Reg #(.size(72)) MEM_WB(
         //data Fields 
         writeReg_addr_WB,
         MemRead_data_WB, 
-        aluResult_WB,
+        aluResult_WB
     })
 );
 
