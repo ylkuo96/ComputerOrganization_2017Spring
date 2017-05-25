@@ -261,7 +261,7 @@ Pipe_Reg #(169) ID_EX(
         instr_shamt_ID          //5            
     }),
     .data_o({
-        aluOpCode_EX,
+		AluOp_c_EX,
         /*control signal*/
         AluSrc_c_EX,
         AluOp_c_EX,
@@ -469,5 +469,3 @@ MUX_2to1 #(.size(32)) Mux_WriteBack(
 
 endmodule
                   
-
-
